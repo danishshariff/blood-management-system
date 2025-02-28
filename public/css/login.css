@@ -1,0 +1,219 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+
+.bg-pattern {
+    min-height: 100vh;
+    background: url('images/wavy-bg.jpg') no-repeat center center / cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+/* Navigation */
+nav {
+    background: #ffffff;
+    padding: 1rem 5%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Login Page */
+.login-section {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 2rem 1rem;
+    min-height: calc(100vh - 80px); /* Adjust for nav height */
+    /* If you want a slight overlay on the background, you could do:
+       background-color: rgba(255, 255, 255, 0.5); */
+  }
+  
+  /* LEFT COLUMN: FORM */
+  .login-container {
+    max-width: 400px;
+    width: 100%;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+  }
+  
+  .login-title {
+    color: #e74c3c; /* Red color */
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+  }
+  
+  .login-form label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+    color: #555;
+  }
+  
+  .login-form input {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 2px solid red; /* Red outline */
+    border-radius: 4px;
+    font-size: 1rem;
+    outline: none;
+  }
+  
+  .captcha-section {
+    margin-bottom: 1rem;
+  }
+  
+  .captcha-text {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+  
+  .reload-captcha {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  
+  .forgot-password {
+    display: inline-block;
+    margin-bottom: 1rem;
+    color: #666;
+    text-decoration: underline;
+    font-size: 0.9rem;
+  }
+  
+  /* Disabled sign in button styling (to match your screenshot) */
+  .sign-in-btn {
+    width: 100%;
+    padding: 0.8rem;
+    background: #ccc;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: bold;
+    cursor: not-allowed;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .new-account {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .new-account a {
+    color: #e74c3c;
+    text-decoration: underline;
+  }
+  
+  .or-signin {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #555;
+  }
+  
+  .social-login {
+    text-align: center;
+  }
+  
+  .social-login a {
+    display: inline-block;
+    margin: 0 0.5rem;
+    font-size: 1.2rem;
+    color: #333;
+    text-decoration: none;
+  }
+  
+  /* RIGHT COLUMN: IMAGE */
+  .doctor-image-container {
+    max-width: 400px;
+    width: 100%;
+    text-align: center; /* Center the image horizontally */
+  }
+  
+  .doctor-image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  /* OPTIONAL: Add a red glow or gradient behind the doctor image */
+  .doctor-image-container {
+    position: relative;
+  }
+  
+  .doctor-image-container::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(255, 0, 0, 0.3) 0%,
+      rgba(255, 0, 0, 0) 70%
+    );
+    z-index: -1;
+  }
+/* Footer */
+footer {
+    background: #2c3e50;
+    color: white;
+    padding: 2rem 5%;
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-section {
+    flex: 1;
+    margin: 0 1rem;
+}
+
+.emergency-contact {
+    color: #dc3545;
+    font-size: 1.2rem;
+}
+
+/* Utilities */
+.btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-primary {
+    background: #dc3545;
+    color: white;
+}

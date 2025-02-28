@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Blood Donors</title>
+  <link rel="stylesheet" href="/public/css/login.css" />
+  <!-- Font Awesome for Social Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  />
+</head>
+<body>
+
+   
+  <!-- Navigation -->
+   
+  <nav>
+    <h2>BLOOD DONORS</h2>
+    <div class="nav-links">
+      <a href="/public/index.html">HOME</a>
+      <a href="/public/request-blood.html">DONATION REQUEST</a>
+      <a href="/public/blog.html">BLOG</a>
+      <a href="/public/login.html" class="active">LOGIN</a>
+    </div>
+  </nav>
+  
+  <div class="bg-pattern">
+  <!-- Main Login Section -->
+  <section class="login-section">
+    <!-- Left Column: Login Form -->
+    <div class="login-container">
+      <h1 class="login-title">LOGIN</h1>
+      <form class="login-form" action="#" method="POST">
+        <!-- Email -->
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="email"
+          required
+        />
+
+        <!-- Password -->
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="password"
+          required
+        />
+
+        <!-- Captcha Section -->
+        <div class="captcha-section">
+          <p class="captcha-text">I p O i U U</p>
+          <a href="#" class="reload-captcha">Reload Captcha</a>
+          <input
+            type="text"
+            id="captcha"
+            name="captcha"
+            placeholder="Type the captcha"
+            required
+          />
+        </div>
+
+        <!-- Forgot Password -->
+        <a href="#" class="forgot-password">Forgot password?</a>
+
+        <!-- Sign In Button (disabled for illustration) -->
+        <button type="submit" class="sign-in-btn" disabled>Sign In</button>
+
+        <!-- New Account -->
+        <p class="new-account">
+          New here? <a href="/public/register.html">Create a new account</a>
+        </p>
+
+        <!-- Social Login -->
+        <p class="or-signin">Or sign in with</p>
+        <div class="social-login">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-google"></i></a>
+        </div>
+      </form>
+    </div>
+
+    <!-- Right Column: Doctor Image -->
+    <div class="doctor-image-container">
+      <!-- Replace 'doctor.png' with your actual doctor image -->
+      <img src="/public/images/doctor.jpg" alt="Doctor" />
+    </div>
+  </section>
+
+</div>
+
+  <!-- Script -->
+  <script src="script.js"></script>
+</body>
+</html>

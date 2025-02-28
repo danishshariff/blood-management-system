@@ -1,0 +1,111 @@
+/* RESET / BASE */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    background: #f4f4f4;
+    color: #333;
+    overflow-x: hidden; /* prevent horizontal scroll if sidebar is out */
+  }
+  
+  
+  /* MAIN CONTENT */
+  .main-content {
+    margin-left: 0;
+    padding: 2rem;
+    transition: margin-left 0.3s ease;
+    min-height: 100vh;
+  }
+  
+  /* STATS CONTAINER */
+  .stats-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .stat-box {
+    flex: 1;
+    min-width: 200px;
+    background: #fff;
+    color: #fff;
+    border-radius: 6px;
+    text-align: center;
+    padding: 1rem;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  .stat-box h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #fff;
+  }
+  
+  .stat-value {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-bottom: 0.2rem;
+  }
+  
+  .stat-date {
+    font-size: 0.9rem;
+    color: #fefefe;
+  }
+  
+  /* Color boxes */
+  .stat-red {
+    background: #ef4444;
+  }
+  
+  .stat-blue {
+    background: #3b82f6;
+  }
+  
+  .stat-yellow {
+    background: #f59e0b;
+  }
+  
+  /* DONATION HISTORY */
+  .donation-history {
+    background: #fff;
+    border-radius: 6px;
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  .donation-history h2 {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    color: #333;
+  }
+  
+  .donation-history table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .donation-history th,
+  .donation-history td {
+    text-align: left;
+    padding: 0.6rem;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .donation-history th {
+    background: #f8f8f8;
+    font-weight: 600;
+  }
+  
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .stats-container {
+      flex-direction: column;
+    }
+  }
+  

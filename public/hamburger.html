@@ -1,0 +1,137 @@
+<!-- hamburger.html -->
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2>BLDONORS</h2>
+      <button class="close-btn" id="closeSidebar" type="button" aria-label="Close Navigation">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <ul class="sidebar-menu">
+      <li><a href="/public/dashboard.html" id="dashboardLink"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+      <li><a href="/public/profile.html" id="profileLink"><i class="fas fa-user"></i> Profile</a></li>
+      <li><a href="/public/donation.html" id="logDonationLink"><i class="fas fa-hand-holding-heart"></i> Log Donation</a></li>
+      <li><a href="/public/blood-request.html" id="bloodRequestsLink"><i class="fas fa-list"></i> Blood Requests</a></li>
+      <li><a href="/public/request-blood.html" id="requestBloodLink"><i class="fas fa-plus-circle"></i> Request Blood</a></li>
+      <li><a href="/public/blog.html" id="blogLink"><i class="fas fa-blog"></i> Blogs</a></li>
+    </ul>
+    <button class="return-home-btn" id="returnHomeBtn" type="button" onclick="window.location.href='index.html'">
+      <i class="fas fa-arrow-left"></i> Return Home
+    </button>
+  </nav>
+  
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <button class="hamburger-btn" id="openSidebar" type="button" aria-label="Open Navigation">
+      <i class="fas fa-bars"></i>
+    </button>
+    <!-- Default title will be overridden in each page -->
+    <h1 id="pageTitle">Page Title <span class="user-name">Danish Shariff</span></h1>
+  </div>
+  
+  <style>
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 260px;
+      height: 100vh;
+      background: #e74c3c;
+      color: #fff;
+      padding: 1rem;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 999;
+    }
+    .sidebar-active {
+      transform: translateX(0);
+    }
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .sidebar-header h2 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #fff;
+    }
+    .close-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .sidebar-menu li {
+      margin-bottom: 1rem;
+    }
+    .sidebar-menu li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.3rem;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    .sidebar-menu li a.active,
+    .sidebar-menu li a:hover {
+      background: #fff;
+      color: #e74c3c;
+    }
+    .return-home-btn {
+      background: #fff;
+      color: #e74c3c;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      margin-top: 2rem;
+      cursor: pointer;
+      display: block;
+      width: 100%;
+      text-align: center;
+      transition: background 0.3s;
+    }
+    .return-home-btn:hover {
+      background: #c0392b;
+      color: #fff;
+    }
+    /* TOP BAR */
+    .topbar {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      padding: 0.8rem 1rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .hamburger-btn {
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: #e74c3c;
+      margin-right: 1rem;
+    }
+    .topbar h1 {
+      font-size: 1.4rem;
+      color: #333;
+      font-weight: bold;
+    }
+    .user-name {
+      color: #e74c3c;
+      font-weight: normal;
+      margin-left: 0.3rem;
+    }
+  </style>
+  

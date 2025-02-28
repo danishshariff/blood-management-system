@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All Pending Donation Requests</title>
+  <link rel="stylesheet" href="/public/css/blood-request.css" />
+  <!-- Font Awesome for icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  />
+</head>
+<body>
+
+<!-- If using a separate hamburger.html partial, do this instead:
+     <div id="commonNav"></div>
+     and fetch it via JavaScript at the bottom. 
+     Otherwise, embed your top bar & sidebar here. -->
+
+     <div id="commonNav"></div>
+
+<div class="main-content">
+  <h1>All Pending Donation Requests</h1>
+  
+  <!-- Filter by Status -->
+  <div class="filter-section">
+    <label for="statusFilter">Filter by Status:</label>
+    <select id="statusFilter">
+      <option value="all">All</option>
+      <option value="inprogress">inprogress</option>
+      <option value="done">done</option>
+      <option value="cancel">cancel</option>
+    </select>
+  </div>
+  
+  <!-- Table of Requests -->
+  <div class="table-container">
+    <table id="requestTable">
+      <thead>
+        <tr>
+          <th>Recipient Name</th>
+          <th>Blood Group</th>
+          <th>Date & Time</th>
+          <th>Hospital Name</th>
+          <th>Full Address</th>
+          <th>Reason</th>
+          <th>Donation Status</th>
+          <th>View</th>
+          <th>Confirm</th>
+          <th>Cancel</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Populated by JavaScript with dummy data -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Request Details Modal -->
+<div class="modal-overlay" id="requestModalOverlay" style="display: none;">
+  <div class="modal" id="requestModal">
+    <h2>Blood Donation Request details</h2>
+    <p><strong>Recipient Name:</strong> <span id="modalRecipientName"></span></p>
+    <p><strong>Recipient Blood Group:</strong> <span id="modalRecipientBloodGroup"></span></p>
+    <p><strong>Donation's Date & Time:</strong> <span id="modalDateTime"></span></p>
+    <p><strong>Donation Address:</strong> <span id="modalAddress"></span></p>
+    <p><strong>Recipient Hospital Name:</strong> <span id="modalHospitalName"></span></p>
+    <p><strong>Reason for donation:</strong> <span id="modalReason"></span></p>
+    <p><strong>Donation Status:</strong> <span id="modalStatus"></span></p>
+    <button class="btn-donate" id="donateBtn">Donate</button>
+    <button class="btn-cancel" id="closeRequestModal">Close</button>
+  </div>
+</div>
+
+<!-- Donate (Confirm) Modal -->
+<div class="modal-overlay" id="donateModalOverlay" style="display: none;">
+  <div class="modal" id="donateModal">
+    <h2>Confirm Donation</h2>
+    <label for="donorNameInput">Donor Name:</label>
+    <input type="text" id="donorNameInput" />
+
+    <label for="donorEmailInput">Donor Email:</label>
+    <input type="email" id="donorEmailInput" />
+
+    <button class="btn-confirm" id="confirmDonationBtn">Confirm Donation</button>
+    <button class="btn-cancel" id="closeDonateModal">Cancel</button>
+  </div>
+</div>
+
+<!-- Confirmed Modal -->
+<div class="modal-overlay" id="confirmedModalOverlay" style="display: none;">
+  <div class="modal" id="confirmedModal">
+    <h2>Confirmed!</h2>
+    <p>Your request to donate blood is confirmed</p>
+    <button class="btn-ok" id="closeConfirmedModal">Ok!</button>
+  </div>
+</div>
+
+<script src="/public/js/blood-request.js"></script>
+</body>
+</html>

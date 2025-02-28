@@ -1,0 +1,514 @@
+/* RESET/BASE STYLES */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* NAVIGATION */
+  nav {
+    background: #ffffff;
+    padding: 1rem 5%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  nav h2 {
+    color: #c0392b;
+    margin: 0;
+  }
+  
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .nav-links a.active {
+    color: #c0392b;
+  }
+  
+/* HERO SLIDER SECTION */
+.slider-container {
+    position: relative;
+    overflow: hidden;
+    height: 80vh; /* Adjust as needed */
+    min-height: 500px;
+    width: 100%;
+  }
+  
+  .slider {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    /* The width will be determined by the number of slides */
+  }
+  
+  .slide {
+    min-width: 100%; /* Each slide takes 100% of the container's width */
+    height: 80vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .slide-content {
+    position: relative;
+    color: #fff;
+    text-align: center;
+    max-width: 600px;
+    padding: 0 1rem;
+    z-index: 2; /* Places content ABOVE the overlay */
+    
+  }
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3); /* Dark overlay */
+    z-index: 1;
+  }
+  
+  
+  .slide-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .slide-content p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Slider Controls */
+  .slider-controls {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    padding: 0 2rem;
+    z-index: 2;
+  }
+  
+  .slider-controls span {
+    font-size: 2rem;
+    color: #fff;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 0.5rem 1rem;
+    border-radius: 50%;
+  }
+  
+  
+  /* ----------------------------------- */
+  /*          3-CARD SECTION             */
+  /* ----------------------------------- */
+  
+  .info-section {
+    padding: 3rem 5%;
+    background: #f8f9fa;
+  }
+  
+  .info-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+  }
+  
+  .info-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    width: 300px;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  .info-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .info-card h3 {
+    margin: 1rem 0 0.5rem;
+    color: #c0392b;
+  }
+  
+  .info-card p {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    color: #555;
+  }
+  
+  .info-card .read-more {
+    display: inline-block;
+    color: #dc3545;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+
+  /* ABOUT SECTION WRAPPER */
+/* ABOUT SECTION WRAPPER */
+.about-section {
+    background: #f8f9fa; /* Light gray or your preferred background */
+    padding: 3rem 5%;
+  }
+  
+  /* Centered container for the entire section */
+  .about-container {
+    max-width: 1200px; /* Adjust to your preferred width */
+    margin: 0 auto;    /* Center horizontally */
+  }
+  
+  /* =========== TOP ROW (Image Left, Text Right) =========== */
+  .about-section {
+    background: #f8f9fa;
+    padding: 3rem 5%;
+  }
+  
+  /* Center the whole content area */
+  .about-container {
+    max-width: 1200px; 
+    margin: 0 auto;    
+  }
+  
+  /* ========================
+     TOP ROW: Side-by-Side
+     ======================== */
+  .top-row {
+    display: flex;
+    align-items: center;       /* Vertically center the image & text */
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: nowrap;         /* Prevents stacking on smaller screens */
+    margin-bottom: 3rem;
+  }
+  
+  .about-image {
+    flex: 1;                   /* Takes ~50% of the row */
+    display: flex;
+    justify-content: center;
+  }
+  
+  .about-image img {
+    max-width: 75%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .about-content {
+    flex: 1;                   /* Takes ~50% of the row */
+  }
+  
+  .about-content h2 {
+    color: #333;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+  }
+  
+  .about-content p {
+    margin-bottom: 1rem;
+    color: #555;
+    line-height: 1.5;
+  }
+  
+  .about-content ul {
+    list-style: disc;
+    margin-left: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #555;
+  }
+  
+  .btn-readmore {
+    display: inline-block;
+    background: #dc3545; 
+    color: #fff;
+    padding: 0.7rem 1.2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  /* =========== BOTTOM ROW (2 Columns) =========== */
+  .bottom-row {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  /* LEFT COLUMN: Accordion Container */
+  .bottom-left {
+    flex: 1;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 8px;
+    border-right: 2px solid #ccc; /* Vertical line dividing columns */
+  }
+  
+  /* RIGHT COLUMN: Current blood request */
+  .bottom-right {
+    flex: 1;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 8px;
+  }
+  
+  .bottom-right h3 {
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .bottom-right ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .bottom-right ul li {
+    margin-bottom: 0.8rem;
+    color: #555;
+    font-size: 0.95rem;
+  }
+  
+  .bottom-right ul li i {
+    color: #dc3545; /* Heart icon color */
+    margin-right: 0.5rem;
+  }
+  
+  /* =========== ACCORDION STYLES =========== */
+  .accordion-container h2 {
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-size: 1.6rem;
+  }
+  
+  /* Optional underline below heading */
+  .title-underline {
+    width: 60px;
+    height: 3px;
+    background: #c0392b;
+    margin-bottom: 1rem;
+  }
+  
+  .accordion-item {
+    border-bottom: 1px solid #ddd;
+    padding: 0.8rem 0;
+  }
+  
+  .accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .accordion-arrow {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    margin-top: 0.5rem;
+  }
+  
+  .accordion-item.active .accordion-body {
+    max-height: 200px; /* Adjust if your content is taller */
+  }
+  
+  .accordion-item.active .accordion-arrow {
+    transform: rotate(-180deg);
+  }
+  
+  .accordion-body p {
+    margin: 0;
+    color: #555;
+    line-height: 1.5;
+  }
+
+  
+
+  /* ----------------------------------- */
+  /*              FOOTER                 */
+  /* ----------------------------------- */
+  footer {
+    background: #2c3e50;
+    color: white;
+    padding: 2rem 5%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  
+  .footer-section {
+    flex: 1;
+    margin: 0 1rem;
+    min-width: 200px;
+    margin-bottom: 1rem;
+  }
+  
+  .footer-section h3 {
+    margin-bottom: 1rem;
+  }
+  
+  .footer-section p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  
+  .footer-section ul {
+    list-style: none;
+  }
+  
+  .footer-section ul li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .footer-section ul li a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .emergency-contact {
+    color: #dc3545;
+    font-size: 1.2rem;
+  }
+  
+  /* ----------------------------------- */
+  /*              UTILITIES              */
+  /* ----------------------------------- */
+  .btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .btn-primary {
+    background: #dc3545;
+    color: white;
+  }
+  
+  /* For the nav link that is active */
+  .nav-links a.active {
+    color: #dc3545;
+  }
+  
+
+  /* Profile Section in the Navbar */
+.profile-section {
+  position: relative;
+  margin-right: 1rem; /* spacing on the right side */
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  object-fit: cover;
+  border: 2px solid #e74c3c; /* red outline to match your theme */
+}
+
+/* MODAL OVERLAY */
+.profile-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: none; /* hidden by default */
+  align-items: center;
+  justify-content: center;
+  z-index: 999; /* ensure it's above everything else */
+}
+
+/* MODAL CARD */
+.profile-modal {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid #e74c3c; /* red border to match screenshot */
+  border-radius: 8px;
+  max-width: 300px;
+  width: 90%;
+  padding: 1.5rem;
+  text-align: center;
+  position: relative;
+}
+
+.profile-img-container {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 1rem auto;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #e74c3c;
+}
+
+.modal-profile-pic {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-name {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.profile-email,
+.profile-role {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.btn {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 0.5rem 0;
+}
+
+.btn:hover {
+  background: #c0392b;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1rem;
+}
+
+/* Show the modal overlay when active */
+.profile-modal-overlay.active {
+  display: flex; /* show overlay + center modal */
+}
