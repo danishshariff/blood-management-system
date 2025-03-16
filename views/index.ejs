@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blood Donors Network</title>
+  <!-- Font Awesome for icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  />
+  <link rel="stylesheet" href="/css/nav.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <!-- Add user data script -->
+  <script>
+    window.userData = <%- JSON.stringify(user || null).replace(/'/g, "\\'") %>;
+  </script>
+
+  <!-- Include navigation -->
+  <%- include('nav') %>
+  
+  <!-- Profile Modal (initially hidden) -->
+  <div class="profile-modal-overlay" id="profileModalOverlay">
+    <div class="profile-modal" id="profileModal">
+      <!-- Profile Image -->
+      <div class="profile-img-container">
+        <img src="/images/user-profile.jpg" alt="User Picture" class="modal-profile-pic" />
+      </div>
+      <h3 class="profile-name">Danish Shariff</h3>
+      <p class="profile-email">Email: danishshariff92@gmail.com</p>
+      <p class="profile-role">Role: Blood Bank Staff</p>
+      
+      <!-- Dashboard Button -->
+      <button class="btn dashboard-btn" id="dashboardBtn">DASHBOARD</button>
+      
+      <!-- Log Out & Exit Buttons -->
+      <div class="modal-actions">
+        <button class="btn logout-btn" id="logoutBtn">Log Out</button>
+        <button class="btn exit-btn" id="exitBtn">Exit</button>
+      </div>
+    </div>
+  </div>
+
+<!-- HERO SLIDER SECTION -->
+<section class="slider-container" id="home">
+    <div class="slider">
+      <!-- Slide 1: Join as a donor -->
+      <div class="slide" style="background-image: url('/images/slider1.jpg');">
+        <div class="overlay"></div>
+        <div class="slide-content">
+          <h2>Join as a donor</h2>
+          <p>
+            Provident cupiditate voluptatem et in. Quas earum facilis repudiandae.
+          </p>
+          <button class="btn btn-primary" onclick="window.location.href='register.html'">
+            Get Started
+          </button>
+        </div>
+      </div>
+  
+      <!-- Slide 2: Donate Blood -->
+      <div class="slide" style="background-image: url('/images/slider2.jpg');">
+        <div class="overlay"></div>
+        <div class="slide-content">
+          <h2>Donate Blood</h2>
+          <p>Help those in need by giving the gift of life.</p>
+          <button class="btn btn-primary" onclick="window.location.href='register.html'">
+            Get Started
+          </button>
+        </div>
+      </div>
+  
+      <!-- Slide 3: Be a Hero -->
+      <div class="slide" style="background-image: url('/images/slider3.jpg');">
+          <div class="overlay"></div>
+          <div class="slide-content">
+          <h2>Be a Hero</h2>
+          <p>One donation can save multiple lives. Start today!</p>
+          <button class="btn btn-primary" onclick="window.location.href='register.html'">
+            Get Started
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Slider Controls -->
+    <div class="slider-controls">
+      <span class="prev">&#10094;</span>
+      <span class="next">&#10095;</span>
+    </div>
+  </section>
+  
+  
+  
+  <!-- 3-CARD INFORMATION SECTION -->
+  <section class="info-section">
+    <div class="info-cards">
+      <!-- Card 1 -->
+      <div class="info-card">
+        <img src="/images/card1.jpg" alt="Become a donor" />
+        <h3>Become a donor</h3>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum, aut.</p>
+        <a href="#" class="read-more">Read more &gt;</a>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="info-card">
+        <img src="/images/card2.jpg" alt="Why give blood?" />
+        <h3>Why give blood?</h3>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus, quae!</p>
+        <a href="#" class="read-more">Read more &gt;</a>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="info-card">
+        <img src="/images/card3.jpg" alt="How donation helps?" />
+        <h3>How donation helps?</h3>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus, quae!</p>
+        <a href="#" class="read-more">Read more &gt;</a>
+      </div>
+    </div>
+  </section>
+
+  
+   
+    
+
+
+  <!-- ABOUT / INFO SECTION -->
+
+
+<section class="about-section">
+    <div class="about-container">
+  
+      <!-- TOP ROW: Left Image, Right Text -->
+      <div class="top-row">
+        <div class="about-image">
+          <img src="/images/who-are-img.jpg" alt="Who Are Blood Donors Group" />
+        </div>
+        <div class="about-content">
+          <h2>Who Are Blood Donors Group</h2>
+          <p>
+            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda 
+            excepturi exercitationem quasi.
+          </p>
+          <ul>
+            <li>High quality assessment, diagnosis, and treatment</li>
+            <li>The extra care of multi-disciplinary team</li>
+            <li>Increasing communication with you</li>
+          </ul>
+          <a href="#" class="btn-readmore">Read more</a>
+        </div>
+      </div>
+  
+      <!-- BOTTOM ROW: 2 Columns (Accordion on Left, Requests on Right) -->
+      <div class="bottom-row">
+        <!-- LEFT COLUMN: Accordion -->
+        <div class="bottom-left">
+          <div class="accordion-container">
+            <h2>Who Are Blood Donors</h2>
+            <div class="title-underline"></div>
+  
+            <!-- Accordion Item 1 -->
+            <div class="accordion-item">
+              <div class="accordion-header">
+                <span>Reduce the risk of heart attack</span>
+                <span class="accordion-arrow">&#9662;</span>
+              </div>
+              <div class="accordion-body">
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+                  Aliquid quidem odit nesciunt modi, minima tenetur voluptatibus 
+                  suscipit repellendus molestias delectus!
+                </p>
+              </div>
+            </div>
+  
+            <!-- Accordion Item 2 -->
+            <div class="accordion-item">
+              <div class="accordion-header">
+                <span>Lower the risk of cancer</span>
+                <span class="accordion-arrow">&#9662;</span>
+              </div>
+              <div class="accordion-body">
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+                  Aliquid quidem odit nesciunt modi, minima tenetur voluptatibus 
+                  suscipit repellendus molestias delectus!
+                </p>
+              </div>
+            </div>
+  
+            <!-- Accordion Item 3 -->
+            <div class="accordion-item">
+              <div class="accordion-header">
+                <span>Speed up the healing process</span>
+                <span class="accordion-arrow">&#9662;</span>
+              </div>
+              <div class="accordion-body">
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+                  Aliquid quidem odit nesciunt modi, minima tenetur voluptatibus 
+                  suscipit repellendus molestias delectus!
+                </p>
+              </div>
+            </div>
+          </div> <!-- /accordion-container -->
+        </div> <!-- /bottom-left -->
+  
+        <!-- RIGHT COLUMN: Current blood request -->
+        <div class="bottom-right">
+          <h2>Current blood request</h2>
+          <div class="title-underline"></div>
+          <ul>
+            <li><i class="fas fa-heart"></i> O+, Trishon Baidaya, Chattogram (20,12,2023)</li>
+            <li><i class="fas fa-heart"></i> O+, Trishon Baidaya, Chattogram (20,12,2023)</li>
+            <li><i class="fas fa-heart"></i> O+, Trishon Baidaya, Chattogram (20,12,2023)</li>
+          </ul>
+        </div>
+      </div> <!-- /bottom-row -->
+  
+    </div> <!-- /about-container -->
+  </section>
+  
+  
+
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-section">
+      <h3>About Us</h3>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+    </div>
+    <div class="footer-section">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/blood-request">Donation Request</a></li>
+        <li><a href="/blog">Blog</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h3>Emergency Contact</h3>
+      <p class="emergency-contact">Call: +880 1234-567890</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPT -->
+  <script src="/js/config.js"></script>
+  <script src="/js/nav.js"></script>
+  <script src="/js/script.js"></script>
+</body>
+</html>

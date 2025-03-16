@@ -116,70 +116,176 @@
     min-height: 100vh;
   }
   
-  /* LOG DONATION FORM STYLES */
-  form {
-    background: #fff;
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  }
-  
-  h2 {
-    text-align: center;
-    color: #e74c3c;
-    margin-bottom: 1.5rem;
-  }
-  
+  /* FORM STYLES */
   .form-row {
     display: flex;
-    gap: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
     margin-bottom: 1.5rem;
   }
   
   .form-group {
     flex: 1;
-    display: flex;
-    flex-direction: column;
+    min-width: 250px;
   }
   
   .form-group label {
+    display: block;
     margin-bottom: 0.5rem;
-    font-weight: bold;
-    color: #555;
+    font-weight: 600;
+    color: #444;
   }
   
-  .form-group input {
-    padding: 0.7rem;
-    border: 2px solid #e74c3c;
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 1rem;
-    outline: none;
-    width: 100%;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
   
+  .form-group input:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+  }
+  
+  .form-group input:read-only {
+    background-color: #f8f8f8;
+    cursor: not-allowed;
+  }
+  
+  .form-group input[type="number"] {
+    -moz-appearance: textfield;
+  }
+  
+  .form-group input[type="number"]::-webkit-outer-spin-button,
+  .form-group input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  /* BUTTONS */
   .btn-submit {
     background: #e74c3c;
     color: #fff;
     border: none;
-    padding: 0.8rem;
     border-radius: 4px;
-    font-size: 1.1rem;
-    font-weight: bold;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
     cursor: pointer;
-    width: 100%;
-    transition: background 0.3s;
+    transition: background 0.2s;
   }
   
   .btn-submit:hover {
     background: #c0392b;
   }
   
+  .btn-submit:disabled {
+    background: #e74c3c88;
+    cursor: not-allowed;
+  }
+  
+  /* MESSAGES */
+  .error-message,
+  .success-message {
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    animation: slideDown 0.3s ease-out;
+  }
+  
+  .error-message {
+    background-color: #fee2e2;
+    border: 1px solid #ef4444;
+    color: #b91c1c;
+  }
+  
+  .success-message {
+    background-color: #dcfce7;
+    border: 1px solid #22c55e;
+    color: #15803d;
+  }
+  
+  /* LOADING SPINNER */
+  .loading-spinner {
+    display: inline-block;
+    margin-right: 0.5rem;
+  }
+  
+  .fa-spinner {
+    animation: spin 1s linear infinite;
+  }
+  
+  /* ANIMATIONS */
+  @keyframes slideDown {
+    from {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
   /* RESPONSIVE */
-  @media (max-width: 800px) {
+  @media screen and (max-width: 768px) {
+    .main-content {
+      padding: 1rem;
+    }
+    
+    .form-group {
+      min-width: 100%;
+    }
+    
     .form-row {
       flex-direction: column;
+      gap: 1rem;
     }
+  }
+  
+  /* DONOR LOOKUP */
+  .donor-info {
+    margin-top: 0.5rem;
+  }
+  
+  .donor-details {
+    background: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 1rem;
+    margin-top: 0.5rem;
+  }
+  
+  .donor-details p {
+    margin-bottom: 0.5rem;
+  }
+  
+  .donor-details p:last-child {
+    margin-bottom: 0;
+  }
+  
+  .donor-details strong {
+    color: #444;
+    margin-right: 0.5rem;
+  }
+  
+  /* Highlight ineligible donors */
+  .donor-info .error-message {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
   }
   

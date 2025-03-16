@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register - Blood Donors</title>
+  <!-- Font Awesome for icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  />
+  <link rel="stylesheet" href="/css/nav.css" />
+  <link rel="stylesheet" href="/css/register.css" />
+</head>
+<body>
+  <!-- Add user data script -->
+  <script>
+    window.userData = <%- JSON.stringify(user || null).replace(/'/g, "\\'") %>;
+  </script>
+
+  <!-- Include navigation -->
+  <%- include('nav') %>
+
+  <div class="main-content">
+    <div class="bg-pattern">
+      <!-- Main Registration Section -->
+      <section class="register-section">
+        <!-- Left Column: Registration Form -->
+        <div class="register-container">
+          <h1 class="register-title">Create Account</h1>
+          <p class="form-description">Please fill out this form with accurate information to create your account.</p>
+          
+          <!-- Role Selection -->
+          <div class="role-selection">
+            <h3>Select Role</h3>
+            <div class="role-buttons">
+              <button type="button" class="role-btn active" data-role="donor">
+                <i class="fas fa-user"></i>
+                Donor
+              </button>
+              <button type="button" class="role-btn" data-role="bbs">
+                <i class="fas fa-hospital-user"></i>
+                Blood Bank Staff
+              </button>
+            </div>
+          </div>
+
+          <form id="registerForm" class="register-form">
+            <!-- Personal Information -->
+            <div class="form-section">
+              <h3>Personal Information</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="firstName">First Name</label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    placeholder="Enter your first name"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="lastName">Last Name</label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    placeholder="Enter your last name"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="phone">Phone Number</label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    placeholder="Enter your phone number"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="address">Address</label>
+                <textarea
+                  id="address"
+                  name="address"
+                  placeholder="Enter your complete address"
+                  rows="3"
+                  required
+                ></textarea>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="gender">Gender</label>
+                  <select id="gender" name="gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="age">Age</label>
+                  <input
+                    type="number"
+                    id="age"
+                    name="age"
+                    placeholder="Enter your age"
+                    min="18"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="profilePic">Profile Picture</label>
+                <input
+                  type="file"
+                  id="profilePic"
+                  name="profilePic"
+                  accept="image/*"
+                  class="file-input"
+                />
+              </div>
+            </div>
+
+            <!-- Role Specific Information -->
+            <div id="donorFields" class="form-section active">
+              <h3>Donor Information</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="bloodGroup" class="required">Blood Group</label>
+                  <select id="bloodGroup" name="blood_group" required>
+                    <option value="">Select Blood Group</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="donorStatus" class="required">Donor Status</label>
+                  <select id="donorStatus" name="status" required>
+                    <option value="">Select Status</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="lastDonation">Last Donation Date</label>
+                <input
+                  type="date"
+                  id="lastDonation"
+                  name="last_donation_date"
+                  max="<%= new Date().toISOString().split('T')[0] %>"
+                />
+              </div>
+            </div>
+
+            <div id="bbsFields" class="form-section" style="display: none;">
+              <h3>Blood Bank Staff Information</h3>
+              <div class="form-group">
+                <label for="bankId" class="required">Blood Bank ID</label>
+                <input
+                  type="number"
+                  id="bankId"
+                  name="bank_id"
+                  placeholder="Enter blood bank ID"
+                  required
+                />
+              </div>
+            </div>
+
+            <!-- Password Section -->
+            <div class="form-section">
+              <h3>Security Information</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <div class="password-input">
+                    <input
+                      type="password"
+                      id="password"
+                      name="password"
+                      placeholder="Enter your password"
+                      required
+                    />
+                    <i class="fas fa-eye-slash toggle-password" onclick="togglePasswordVisibility('password')"></i>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="confirmPassword">Confirm Password</label>
+                  <div class="password-input">
+                    <input
+                      type="password"
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      placeholder="Confirm your password"
+                      required
+                    />
+                    <i class="fas fa-eye-slash toggle-password" onclick="togglePasswordVisibility('confirmPassword')"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Captcha Section -->
+            <div class="form-section">
+              <div class="captcha-container">
+                <label for="captcha">Enter Captcha</label>
+                <div class="captcha-box">
+                  <span id="captchaText"></span>
+                  <button type="button" id="reloadCaptcha">
+                    <i class="fas fa-sync-alt"></i>
+                  </button>
+                </div>
+                <input
+                  type="text"
+                  id="captcha"
+                  name="captcha"
+                  placeholder="Enter the captcha text"
+                  required
+                />
+              </div>
+            </div>
+
+            <!-- Terms and Conditions -->
+            <div class="form-section">
+              <div class="form-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="terms" name="terms" required />
+                  I agree to the <a href="/terms">Terms and Conditions</a>
+                </label>
+              </div>
+            </div>
+
+            <!-- Error Message -->
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+            <!-- Submit Button -->
+            <div class="form-section">
+              <button type="submit" id="registerBtn" class="submit-btn" disabled>
+                <span class="loading-spinner">
+                  <i class="fas fa-spinner fa-spin"></i>
+                </span>
+                <span class="btn-text">Create Account</span>
+              </button>
+            </div>
+
+            <!-- Login Link -->
+            <div class="login-link">
+              Already have an account? <a href="/login">Login here</a>
+            </div>
+          </form>
+        </div>
+
+        <!-- Right Column: Image -->
+        <div class="image-container">
+          <img src="/images/register-image.jpg" alt="Blood Donation">
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="modal-overlay" id="successModalOverlay" style="display: none;">
+    <div class="modal" id="successModal">
+      <h2>Registration Successful!</h2>
+      <p>Your account has been created successfully. Please login to continue.</p>
+      <button class="btn-ok" id="closeSuccessModal">Ok</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/config.js"></script>
+  <script src="/js/nav.js"></script>
+  <script src="/js/register.js"></script>
+</body>
+</html>

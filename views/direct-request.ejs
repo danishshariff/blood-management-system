@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Blood Donation</title>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/direct-request.css">
+</head>
+<body>
+    <!-- Add user data script -->
+    <script>
+        window.userData = <%- JSON.stringify(user || {}) %>;
+    </script>
+
+    <!-- Include navigation -->
+    <%- include('nav') %>
+
+    <div class="main-content">
+        <div class="request-container">
+            <h1>Request Blood Donation</h1>
+            <p class="form-description">Fill out this form to request blood donation. Our blood banks will process your request as soon as possible.</p>
+
+            <form id="directRequestForm" class="request-form">
+                <div class="form-section">
+                    <h3>Request Details</h3>
+                    
+                    <div class="form-group">
+                        <label for="requester_name">Your Name*</label>
+                        <input
+                            type="text"
+                            id="requester_name"
+                            name="requester_name"
+                            placeholder="Enter your full name"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact_no">Contact Number*</label>
+                        <input
+                            type="tel"
+                            id="contact_no"
+                            name="contact_no"
+                            placeholder="Enter your contact number"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="blood_group">Required Blood Group*</label>
+                            <select id="blood_group" name="blood_group" required>
+                                <option value="">Select Blood Group</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="urgency">Urgency Level*</label>
+                            <select id="urgency" name="urgency" required>
+                                <option value="">Select Urgency</option>
+                                <option value="normal">Normal</option>
+                                <option value="urgent">Urgent</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="quantity">Units Required*</label>
+                            <input
+                                type="number"
+                                id="quantity"
+                                name="quantity"
+                                placeholder="Number of units needed"
+                                min="1"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bank_id">Select Blood Bank*</label>
+                        <select id="bank_id" name="bank_id" required>
+                            <option value="">Select Blood Bank</option>
+                            <!-- Blood banks will be populated via JavaScript -->
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reason">Reason for Request*</label>
+                        <textarea
+                            id="reason"
+                            name="reason"
+                            placeholder="Please explain why you need the blood donation"
+                            rows="4"
+                            required
+                        ></textarea>
+                    </div>
+                </div>
+
+                <!-- Error Message -->
+                <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+                <!-- Submit Button -->
+                <button type="submit" id="submitRequest" class="submit-btn">
+                    <span class="btn-text">Submit Request</span>
+                    <span class="loading-spinner" style="display: none;">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModalOverlay" style="display: none;">
+        <div class="modal" id="successModal">
+            <h2>Request Submitted Successfully!</h2>
+            <p>Your blood donation request has been submitted. The blood bank will review your request and contact you soon.</p>
+            <button class="btn-ok" id="closeSuccessModal">Ok</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/config.js"></script>
+    <script src="/js/nav.js"></script>
+    <script>
+        // Ensure correct navigation highlighting
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                const directRequestLink = document.querySelector('[data-page="direct-request"]');
+                if (directRequestLink) {
+                    directRequestLink.style.color = '#e74c3c';
+                    directRequestLink.style.backgroundColor = 'rgba(231, 76, 60, 0.1)';
+                }
+            }, 100);
+        });
+    </script>
+    <script src="/js/direct-request.js"></script>
+</body>
+</html> 

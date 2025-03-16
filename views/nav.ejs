@@ -1,0 +1,88 @@
+<!-- Add this script tag before nav.js -->
+<script>
+    window.userData = JSON.parse('<%- JSON.stringify(user || null).replace(/'/g, "\\'") %>');
+</script>
+
+<!-- Navigation Bar -->
+<nav class="navbar">
+    <div class="nav-brand">
+        <a href="/">
+            <i class="fas fa-heartbeat"></i>
+            Blood Donors
+        </a>
+    </div>
+    
+    <div class="nav-links">
+        <a href="/" class="nav-link" data-page="index">
+            <i class="fas fa-home"></i>
+            Home
+        </a>
+        <a href="/about" class="nav-link" data-page="about">
+            <i class="fas fa-info-circle"></i>
+            About
+        </a>
+        <a href="/contact" class="nav-link" data-page="contact">
+            <i class="fas fa-envelope"></i>
+            Contact
+        </a>
+        <% if (user) { %>
+            <a href="/donor-available-requests" class="nav-link auth-required" data-page="donor-available-requests">
+                <i class="fas fa-tint"></i>
+                Available Requests
+            </a>
+        <% } else { %>
+            <a href="/login" id="loginLink" class="nav-link" data-page="login">
+                <i class="fas fa-sign-in-alt"></i>
+                Login
+            </a>
+            <a href="/register" id="registerLink" class="nav-link" data-page="register">
+                <i class="fas fa-user-plus"></i>
+                Register
+            </a>
+        <% } %>
+        <a href="/direct-request" class="nav-link" data-page="direct-request">
+            <i class="fas fa-hand-holding-medical"></i>
+            Request Blood
+        </a>
+        <% if (user) { %>
+            <a href="/dashboard" class="nav-link auth-required donor-only" data-page="dashboard">
+                <i class="fas fa-user"></i>
+                Donor Dashboard
+            </a>
+        <% } %>
+        <% if (user) { %>
+            <a href="/bloodbank-dashboard" class="nav-link auth-required bloodbank-only" data-page="bloodbank-dashboard">
+                <i class="fas fa-hospital"></i>
+                Blood Bank Dashboard
+            </a>
+        <% } %>
+        
+        <!-- Profile Button -->
+        <% if (user) { %>
+            <div class="profile-btn auth-required">
+                <img id="profilePic" src="<%= user.profile_picture || '/images/default-avatar.png' %>" alt="Profile" style="width: 30px; height: 30px;">
+                <span id="userName"><%= user.name %></span>
+                <i class="fas fa-caret-down"></i>
+            </div>
+        <% } %>
+
+        <!-- Profile Dropdown -->
+        <% if (user) { %>
+            <div class="profile-dropdown auth-required">
+                <a href="/profile" class="dropdown-item" data-page="profile">
+                    <i class="fas fa-user-circle"></i>
+                    Profile
+                </a>
+                <a href="/logout" id="logoutLink" class="dropdown-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            </div>
+        <% } %>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" type="button" aria-label="Toggle navigation menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</nav> 

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found</title>
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .error-container {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+        .error-code {
+            font-size: 6rem;
+            color: #e74c3c;
+            margin-bottom: 1rem;
+        }
+        .error-message {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+        }
+        .back-home {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: #e74c3c;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .back-home:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <%- include('nav') %>
+    
+    <div class="error-container">
+        <div class="error-code">404</div>
+        <div class="error-message">Oops! Page not found.</div>
+        <a href="/" class="back-home">Back to Home</a>
+    </div>
+
+    <script src="/js/nav.js"></script>
+</body>
+</html> 

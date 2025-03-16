@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Donor Dashboard</title>
+  <link rel="stylesheet" href="/css/dashboard.css" />
+  <!-- Font Awesome for icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  />
+</head>
+<body>
+    <!-- Add user data script -->
+    <script>
+        window.userData = JSON.parse('<%- JSON.stringify(user || null) %>');
+    </script>
+
+    <!-- Include navigation -->
+    <%- include('nav') %>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+      <!-- Error message container -->
+      <div id="dashboardError" class="error-message" style="display: none;"></div>
+
+      <!-- STATS -->
+      <div class="stats-container">
+        <div class="stat-box stat-red">
+          <h3>Total Donations</h3>
+          <p class="stat-value" id="totalDonations">0</p>
+          <span class="stat-date">Lifetime</span>
+        </div>
+        <div class="stat-box stat-blue">
+          <h3>Next Eligible Date</h3>
+          <p class="stat-value" id="nextDonationDate">Loading...</p>
+          <span class="stat-date" id="eligibilityStatus">Checking eligibility...</span>
+        </div>
+        <div class="stat-box stat-yellow">
+          <h3>Total Units</h3>
+          <p class="stat-value" id="totalUnits">0</p>
+          <span class="stat-date">Total blood donated</span>
+        </div>
+      </div>
+
+      <!-- DONATION HISTORY -->
+      <div class="donation-history">
+        <h2>Donation History</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Blood Group</th>
+              <th>Quantity</th>
+              <th>Blood Bank</th>
+            </tr>
+          </thead>
+          <tbody id="donationHistoryBody">
+            <tr>
+              <td colspan="4" class="text-center">Loading donation history...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/auth.js"></script>
+    <script src="/js/nav.js"></script>
+    <script src="/js/dashboard.js"></script>
+
+</body>
+</html>

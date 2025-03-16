@@ -4,32 +4,80 @@
     padding: 0;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
-  }
-  
-  body {
+}
+
+body {
     background: #f4f4f4;
     color: #333;
     overflow-x: hidden; /* prevent horizontal scroll if sidebar is out */
-  }
-  
-  
-  /* MAIN CONTENT */
-  .main-content {
+}
+
+/* ERROR MESSAGE */
+.error-message {
+    background-color: #fee2e2;
+    border: 1px solid #ef4444;
+    color: #b91c1c;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 6px;
+    text-align: center;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* LOADING STATE */
+.loading {
+    position: relative;
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    margin: -12px 0 0 -12px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #3b82f6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* MAIN CONTENT */
+.main-content {
     margin-left: 0;
     padding: 2rem;
     transition: margin-left 0.3s ease;
     min-height: 100vh;
-  }
-  
-  /* STATS CONTAINER */
-  .stats-container {
+}
+
+/* STATS CONTAINER */
+.stats-container {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
     margin-bottom: 2rem;
-  }
-  
-  .stat-box {
+}
+
+.stat-box {
     flex: 1;
     min-width: 200px;
     background: #fff;
@@ -39,73 +87,90 @@
     padding: 1rem;
     position: relative;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  }
-  
-  .stat-box h3 {
+    transition: transform 0.2s ease;
+}
+
+.stat-box:hover {
+    transform: translateY(-2px);
+}
+
+.stat-box h3 {
     font-size: 1rem;
     margin-bottom: 0.5rem;
     color: #fff;
-  }
-  
-  .stat-value {
+}
+
+.stat-value {
     font-size: 1.6rem;
     font-weight: bold;
     margin-bottom: 0.2rem;
-  }
-  
-  .stat-date {
+}
+
+.stat-date {
     font-size: 0.9rem;
     color: #fefefe;
-  }
-  
-  /* Color boxes */
-  .stat-red {
+}
+
+/* Color boxes */
+.stat-red {
     background: #ef4444;
-  }
-  
-  .stat-blue {
+}
+
+.stat-blue {
     background: #3b82f6;
-  }
-  
-  .stat-yellow {
+}
+
+.stat-yellow {
     background: #f59e0b;
-  }
-  
-  /* DONATION HISTORY */
-  .donation-history {
+}
+
+/* DONATION HISTORY */
+.donation-history {
     background: #fff;
     border-radius: 6px;
     padding: 1rem;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  }
-  
-  .donation-history h2 {
+}
+
+.donation-history h2 {
     margin-bottom: 1rem;
     font-size: 1.2rem;
     color: #333;
-  }
-  
-  .donation-history table {
+}
+
+.donation-history table {
     width: 100%;
     border-collapse: collapse;
-  }
-  
-  .donation-history th,
-  .donation-history td {
+}
+
+.donation-history th,
+.donation-history td {
     text-align: left;
     padding: 0.6rem;
     border-bottom: 1px solid #ddd;
-  }
-  
-  .donation-history th {
+}
+
+.donation-history th {
     background: #f8f8f8;
     font-weight: 600;
-  }
-  
-  /* RESPONSIVE */
-  @media (max-width: 900px) {
+}
+
+.donation-history tr:last-child td {
+    border-bottom: none;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
     .stats-container {
-      flex-direction: column;
+        flex-direction: column;
     }
-  }
+    
+    .stat-box {
+        min-width: 100%;
+    }
+}
   

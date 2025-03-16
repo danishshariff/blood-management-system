@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Blood Bank Management System</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Add user data script -->
+    <script>
+        window.userData = <%- JSON.stringify(user || null).replace(/'/g, "\\'") %>;
+    </script>
+
+    <!-- Include navigation -->
+    <%- include('nav') %>
+
+    <!-- Main Content -->
+    <main class="profile-container">
+        <div class="profile-header">
+            <h1>Profile Settings</h1>
+            <p>Update your personal information</p>
+        </div>
+
+        <div class="profile-card">
+            <!-- Error Message -->
+            <div id="errorMessage" class="alert alert-error"></div>
+
+            <!-- Success Message -->
+            <div id="successMessage" class="alert alert-success"></div>
+
+            <div class="profile-image-section">
+                <div class="profile-image-container">
+                    <img id="profileImage" src="/images/default-avatar.png" alt="Profile Picture">
+                    <div class="profile-image-overlay">
+                        <label for="profileImageInput" class="change-photo-btn">
+                            <i class="fas fa-camera"></i>
+                            Change Photo
+                        </label>
+                        <input type="file" id="profileImageInput" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+                <p class="image-hint">Click to change profile picture</p>
+            </div>
+
+            <form id="profileForm" class="profile-form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <div class="input-group">
+                        <input type="text" id="name" name="name" placeholder="Enter your full name">
+                        <span class="current-value" id="currentName"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-group">
+                        <input type="email" id="email" name="email" disabled>
+                        <span class="current-value" id="currentEmail"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="contact">Contact Number</label>
+                    <div class="input-group">
+                        <input type="tel" id="contact" name="contact_no" placeholder="Enter your contact number">
+                        <span class="current-value" id="currentContact"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <div class="input-group">
+                        <textarea id="address" name="address" placeholder="Enter your address"></textarea>
+                        <span class="current-value" id="currentAddress"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <div class="input-group">
+                            <input type="number" id="age" name="age" min="18" placeholder="Enter your age">
+                            <span class="current-value" id="currentAge"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <div class="input-group">
+                            <select id="gender" name="gender">
+                                <option value="">Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <span class="current-value" id="currentGender"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="bloodGroupContainer" class="form-group">
+                    <label for="bloodGroup">Blood Group</label>
+                    <div class="input-group">
+                        <select id="bloodGroup" name="blood_group">
+                            <option value="">Select Blood Group</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                        </select>
+                        <span class="current-value" id="currentBloodGroup"></span>
+                    </div>
+                </div>
+
+                <div class="profile-actions">
+                    <button type="submit" id="submitBtn" class="btn-save">
+                        <i class="fas fa-save"></i>
+                        Update Profile
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Common Footer -->
+    <div id="commonFooter"></div>
+
+    <!-- Scripts -->
+    <script src="/js/nav.js"></script>
+    <script src="/js/profile.js"></script>
+</body>
+</html>

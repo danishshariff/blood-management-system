@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Blood Bank Management System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link rel="stylesheet" href="/css/nav.css" />
+  <link rel="stylesheet" href="/css/login.css" />
+</head>
+<body>
+  <!-- Add user data script -->
+  <script>
+    window.userData = <%- JSON.stringify(user || null).replace(/'/g, "\\'") %>;
+  </script>
+
+  <!-- Include navigation -->
+  <%- include('nav') %>
+
+  <!-- Login Container -->
+  <div class="bg-pattern">
+    <div class="login-section">
+      <div class="login-container">
+        <h2 class="login-title">Welcome Back</h2>
+        <p class="login-subtitle">Please login to your account</p>
+
+        <div id="errorMessage" class="error-message"></div>
+
+        <form id="loginForm" class="login-form">
+          <div class="form-group">
+            <label for="email" class="required">Email Address</label>
+            <input type="email" id="email" class="form-control" placeholder="Enter your registered email" required />
+          </div>
+
+          <div class="form-group">
+            <label for="password" class="required">Password</label>
+            <div class="password-input">
+              <input type="password" id="password" class="form-control" placeholder="Enter your password" required />
+              <i class="fas fa-eye-slash toggle-password"></i>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="captcha" class="required">Captcha</label>
+            <div class="captcha-section">
+              <div id="captchaText" class="captcha-text"></div>
+              <input type="text" id="captcha" class="form-control" placeholder="Enter the captcha code" required />
+              <a href="#" id="reloadCaptcha" class="reload-captcha">Reload Captcha</a>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="checkbox-container">
+              <input type="checkbox" id="remember" name="remember">
+              <label for="remember">Remember me</label>
+            </div>
+            <a href="/forgot-password" class="forgot-password">Forgot Password?</a>
+          </div>
+
+          <button type="submit" id="loginBtn" class="login-btn" disabled>
+            <span class="loading-spinner">
+              <i class="fas fa-spinner fa-spin"></i>
+            </span>
+            <span class="btn-text">Login</span>
+          </button>
+
+          <div class="register-link">
+            Don't have an account? <a href="/register">Register here</a>
+          </div>
+        </form>
+      </div>
+
+      <div class="image-container">
+        <img src="/images/login-image.jpg" alt="Blood Donation">
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/config.js"></script>
+  <script src="/js/nav.js"></script>
+  <script src="/js/login.js"></script>
+</body>
+</html>

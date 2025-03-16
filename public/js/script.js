@@ -32,35 +32,93 @@ document.addEventListener('DOMContentLoaded', function() {
   document.addEventListener('DOMContentLoaded', function() {
     const slider = document.querySelector('.slider');
     const slides = document.querySelectorAll('.slide');
-    const prevBtn = document.querySelector('.prev');
-    const nextBtn = document.querySelector('.next');
-    
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    const dots = document.querySelectorAll('.dot');
+    const searchForm = document.getElementById('searchForm');
+    const searchInput = document.getElementById('searchInput');
+    const filterForm = document.getElementById('filterForm');
+    const locationFilter = document.getElementById('locationFilter');
+    const bloodGroupFilter = document.getElementById('bloodGroupFilter');
+    const statusFilter = document.getElementById('statusFilter');
+    const emergencyFilter = document.getElementById('emergencyFilter');
+
+    // Get user data from server-side session
+    const userData = window.userData;
+
+    // Slider functionality
     let currentSlide = 0;
-    
+    const slideCount = slides.length;
+
     function showSlide(index) {
-      if (index < 0) {
-        currentSlide = slides.length - 1;
-      } else if (index >= slides.length) {
-        currentSlide = 0;
-      } else {
-        currentSlide = index;
-      }
-      slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+        slides.forEach(slide => slide.style.display = 'none');
+        dots.forEach(dot => dot.classList.remove('active'));
+        
+        slides[index].style.display = 'block';
+        dots[index].classList.add('active');
     }
-    
-    prevBtn.addEventListener('click', () => {
-      showSlide(currentSlide - 1);
+
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slideCount;
+        showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+        showSlide(currentSlide);
+    }
+
+    // Auto slide
+    setInterval(nextSlide, 5000);
+
+    // Event listeners for slider
+    if (prevBtn) {
+        prevBtn.addEventListener('click', prevSlide);
+    }
+    if (nextBtn) {
+        nextBtn.addEventListener('click', nextSlide);
+    }
+
+    // Dot navigation
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            currentSlide = index;
+            showSlide(currentSlide);
+        });
     });
-    
-    nextBtn.addEventListener('click', () => {
-      showSlide(currentSlide + 1);
-    });
-    
-    // Start at the first slide
+
+    // Search functionality
+    if (searchForm) {
+        searchForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const searchTerm = searchInput.value.trim();
+            if (searchTerm) {
+                window.location.href = `/donor-available-requests?search=${encodeURIComponent(searchTerm)}`;
+            }
+        });
+    }
+
+    // Filter functionality
+    if (filterForm) {
+        filterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const location = locationFilter.value;
+            const bloodGroup = bloodGroupFilter.value;
+            const status = statusFilter.value;
+            const emergency = emergencyFilter.value;
+
+            const params = new URLSearchParams();
+            if (location) params.append('location', location);
+            if (bloodGroup) params.append('bloodGroup', bloodGroup);
+            if (status) params.append('status', status);
+            if (emergency) params.append('emergency', emergency);
+
+            window.location.href = `/donor-available-requests?${params.toString()}`;
+        });
+    }
+
+    // Initialize
     showSlide(currentSlide);
-    setInterval(() => {
-      showSlide(currentSlide + 1);
-    }, 5000);
   });
   
   document.addEventListener('DOMContentLoaded', () => {

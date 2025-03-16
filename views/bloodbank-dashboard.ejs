@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Blood Bank Dashboard</title>
+    <link rel="stylesheet" href="/css/dashboard.css" />
+    <link rel="stylesheet" href="/css/bloodbank-dashboard.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+<body>
+    <!-- Add user data script -->
+    <script>
+        window.userData = JSON.parse('<%- JSON.stringify(user || null) %>');
+    </script>
+
+    <!-- Include navigation -->
+    <%- include('nav') %>
+
+    <div class="main-content">
+        <!-- Error message container -->
+        <div id="dashboardError" class="error-message" style="display: none;"></div>
+        <div id="dashboardSuccess" class="success-message" style="display: none;"></div>
+
+        <!-- BLOOD STOCK -->
+        <div class="section-container">
+            <h2>Blood Stock Levels</h2>
+            <div class="blood-stock-grid" id="bloodStockGrid">
+                <!-- Blood stock levels will be populated here -->
+                <div class="loading">Loading blood stock data...</div>
+            </div>
+        </div>
+
+        <!-- Create Blood Request Modal -->
+        <div class="modal" id="createRequestModal">
+            <div class="modal-content">
+                <h3>Create Blood Request</h3>
+                <form id="createRequestForm">
+                    <div class="form-group">
+                        <label for="blood_group">Blood Group:</label>
+                        <select name="blood_group" id="blood_group" required>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Quantity (units):</label>
+                        <input type="number" name="quantity" id="quantity" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="urgency">Urgency Level:</label>
+                        <select name="urgency" id="urgency" required>
+                            <option value="normal">Normal</option>
+                            <option value="urgent">Urgent</option>
+                            <option value="emergency">Emergency</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reason">Reason:</label>
+                        <textarea name="reason" id="reason" rows="3" required></textarea>
+                    </div>
+                    <div class="button-group">
+                        <button type="submit" class="btn-primary">Create Request</button>
+                        <button type="button" class="btn-secondary" onclick="closeModal('createRequestModal')">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/nav.js"></script>
+    <script src="/js/bloodbank-dashboard.js"></script>
+</body>
+</html> 
