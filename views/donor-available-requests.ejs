@@ -13,8 +13,9 @@
   <link rel="stylesheet" href="/css/donor-available-request.css" />
 </head>
 <body>
-    <!-- Add user data script -->
+    <!-- Add API URL and user data script -->
     <script>
+        window.API_URL = '/api';
         window.userData = <%- JSON.stringify(user || null).replace(/'/g, "\\'") %>;
     </script>
 
@@ -99,25 +100,25 @@
   
   <!-- Table of Requests -->
   <div class="table-container">
-    <table id="requestTable">
-      <thead>
-        <tr>
-          <th>Recipient Name</th>
-          <th>Blood Group</th>
-          <th>Date & Time</th>
-          <th>Hospital Name</th>
-          <th>Full Address</th>
-          <th>Reason</th>
-          <th>Status</th>
-          <th>Emergency</th>
-          <th>View</th>
-          <th>Confirm</th>
-          <th>Cancel</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Populated by JavaScript -->
-      </tbody>
+    <table class="requests-table">
+        <thead>
+            <tr>
+                <th>Requester</th>
+                <th>Blood Group</th>
+                <th>Date</th>
+                <th>Location</th>
+                <th>Address</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Urgency</th>
+                <th>Actions</th>
+                <th>Donate</th>
+                <th>Cancel</th>
+            </tr>
+        </thead>
+        <tbody id="requestTable">
+            <!-- Requests will be loaded here -->
+        </tbody>
     </table>
   </div>
 
@@ -129,46 +130,86 @@
 </div>
 
 <!-- Request Details Modal -->
-<div class="modal-overlay" id="requestModalOverlay" style="display: none;">
-  <div class="modal" id="requestModal">
-    <h2>Blood Donation Request details</h2>
-    <p><strong>Recipient Name:</strong> <span id="modalRecipientName"></span></p>
-    <p><strong>Recipient Blood Group:</strong> <span id="modalRecipientBloodGroup"></span></p>
-    <p><strong>Donation's Date & Time:</strong> <span id="modalDateTime"></span></p>
-    <p><strong>Donation Address:</strong> <span id="modalAddress"></span></p>
-    <p><strong>Recipient Hospital Name:</strong> <span id="modalHospitalName"></span></p>
-    <p><strong>Reason for donation:</strong> <span id="modalReason"></span></p>
-    <p><strong>Donation Status:</strong> <span id="modalStatus"></span></p>
-    <p><strong>Emergency:</strong> <span id="modalEmergency"></span></p>
-    <button class="btn-donate" id="donateBtn">Donate</button>
-    <button class="btn-cancel" id="closeRequestModal">Close</button>
-  </div>
+<div id="requestModalOverlay" class="modal-overlay">
+    <div class="modal">
+        <button id="closeRequestModal" class="close-button">×</button>
+        <h2>Request Details</h2>
+        <div class="request-details">
+            <div class="detail-row">
+                <label>Recipient Name:</label>
+                <span id="modalRecipientName"></span>
+            </div>
+            <div class="detail-row">
+                <label>Blood Group:</label>
+                <span id="modalRecipientBloodGroup"></span>
+            </div>
+            <div class="detail-row">
+                <label>Date & Time:</label>
+                <span id="modalDateTime"></span>
+            </div>
+            <div class="detail-row">
+                <label>Location:</label>
+                <span id="modalHospitalName"></span>
+            </div>
+            <div class="detail-row">
+                <label>Address:</label>
+                <span id="modalAddress"></span>
+            </div>
+            <div class="detail-row">
+                <label>Reason:</label>
+                <span id="modalReason"></span>
+            </div>
+            <div class="detail-row">
+                <label>Status:</label>
+                <span id="modalStatus"></span>
+            </div>
+            <div class="detail-row">
+                <label>Emergency:</label>
+                <span id="modalEmergency"></span>
+            </div>
+            <div class="detail-row">
+                <label>Quantity Required:</label>
+                <span id="modalQuantity"></span>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button id="donateBtn" class="btn-confirm">
+                <i class="fas fa-check"></i> Confirm Donation
+            </button>
+        </div>
+    </div>
 </div>
 
-<!-- Donate (Confirm) Modal -->
-<div class="modal-overlay" id="donateModalOverlay" style="display: none;">
-  <div class="modal" id="donateModal">
-    <h2>Confirm Donation</h2>
-    <label for="donorNameInput">Donor Name:</label>
-    <input type="text" id="donorNameInput" />
-
-    <label for="donorEmailInput">Donor Email:</label>
-    <input type="email" id="donorEmailInput" />
-
-    <button class="btn-confirm" id="confirmDonationBtn">Confirm Donation</button>
-    <button class="btn-cancel" id="closeDonateModal">Cancel</button>
-  </div>
+<!-- Donate Modal -->
+<div id="donateModalOverlay" class="modal-overlay">
+    <div class="modal">
+        <button id="closeDonateModal" class="close-button">×</button>
+        <h2>Confirm Donation</h2>
+        <p>Are you sure you want to proceed with the donation?</p>
+        <div class="modal-actions">
+            <button id="confirmDonationBtn" class="btn-confirm">
+                <i class="fas fa-check"></i> Yes, Proceed
+            </button>
+            <button id="cancelDonationBtn" class="btn-cancel">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+        </div>
+    </div>
 </div>
 
 <!-- Confirmed Modal -->
-<div class="modal-overlay" id="confirmedModalOverlay" style="display: none;">
-  <div class="modal" id="confirmedModal">
-    <h2>Confirmed!</h2>
-    <p>Your request to donate blood is confirmed</p>
-    <button class="btn-ok" id="closeConfirmedModal">Ok!</button>
-  </div>
+<div id="confirmedModalOverlay" class="modal-overlay">
+    <div class="modal">
+        <button id="closeConfirmedModal" class="close-button">×</button>
+        <h2>Donation Confirmed</h2>
+        <p>Thank you for your donation!</p>
+        <div class="modal-actions">
+            <button class="btn-confirm" onclick="window.location.href='/donor/dashboard'">
+                <i class="fas fa-home"></i> Go to Dashboard
+            </button>
+        </div>
+    </div>
 </div>
-<script src="/js/config.js"></script>
 <script src="/js/nav.js"></script>
 <script>
     // Ensure correct navigation highlighting

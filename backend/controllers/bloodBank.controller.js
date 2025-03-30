@@ -2,6 +2,7 @@ const BloodBank = require('../models/bloodBank.model');
 const Notification = require('../models/notification.model');
 const User = require('../models/user.model');
 const db = require('../utils/db');
+const { getClient } = require('../utils/db');
 
 exports.createBank = async (req, res) => {
     try {
@@ -18,6 +19,7 @@ exports.createBank = async (req, res) => {
 
         res.status(201).json({
             success: true,
+            message: 'Blood bank created successfully',
             data: bank
         });
     } catch (error) {
@@ -165,6 +167,62 @@ exports.getAllBanks = async (req, res) => {
         res.status(500).json({
             success: false,
             message: error.message || 'Error fetching blood banks'
+        });
+    }
+};
+
+exports.createBloodBank = async (req, res) => {
+    try {
+        const { name, email, contact_no, address, state, city } = req.body;
+        
+        // Start transaction
+        const client = await getClient();
+        try {
+            await client.query('BEGIN');
+
+            // Insert blood bank
+            const bankResult = await client.query(
+                'INSERT INTO blood_banks (name, email, contact_no, address, state, city) VALUES ($1, $2, $3, $4, $5, $6) RETURNING bank_id',
+                [name, email, contact_no, address, state, city]
+            );
+
+            const bankId = bankResult.rows[0].bank_id;
+
+            // Insert initial blood stock for all blood groups
+            const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+            for (const bloodGroup of bloodGroups) {
+                await client.query(
+                    'INSERT INTO blood_stock (bank_id, blood_group, quantity_available) VALUES ($1, $2, 0)',
+                    [bankId, bloodGroup]
+                );
+            }
+
+            await client.query('COMMIT');
+
+            res.status(201).json({
+                success: true,
+                message: 'Blood bank created successfully',
+                data: {
+                    bank_id: bankId,
+                    name,
+                    email,
+                    contact_no,
+                    address,
+                    state,
+                    city
+                }
+            });
+        } catch (error) {
+            await client.query('ROLLBACK');
+            throw error;
+        } finally {
+            client.release();
+        }
+    } catch (error) {
+        console.error('Error creating blood bank:', error);
+        res.status(500).json({
+            success: false,
+            message: error.message || 'Failed to create blood bank'
         });
     }
 }; 

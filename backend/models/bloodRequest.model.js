@@ -43,7 +43,7 @@ class BloodRequest {
         const query = `
             SELECT br.*, bb.name as bank_name, bb.address
             FROM blood_requests br
-            JOIN blood_banks bb ON br.bank_id = bb.id
+            JOIN blood_banks bb ON br.bank_id = bb.bank_id
             WHERE br.blood_group = ANY($1)
             AND br.status = 'pending'
             ORDER BY 

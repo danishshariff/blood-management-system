@@ -1,6 +1,7 @@
 const Donation = require('../models/donation.model');
 const BloodBank = require('../models/bloodBank.model');
 const Notification = require('../models/notification.model');
+const User = require('../models/user.model');
 
 exports.createDonation = async (req, res) => {
     try {
@@ -110,12 +111,12 @@ exports.checkEligibility = async (req, res) => {
         const today = new Date();
         const daysSinceLastDonation = Math.floor((today - lastDonation) / (1000 * 60 * 60 * 24));
 
-        if (daysSinceLastDonation < 90) {
+        if (daysSinceLastDonation < 56) {
             return res.json({
                 success: true,
                 eligible: false,
-                message: `You must wait ${90 - daysSinceLastDonation} more days before donating again`,
-                nextEligibleDate: new Date(lastDonation.getTime() + (90 * 24 * 60 * 60 * 1000))
+                message: `You must wait ${56 - daysSinceLastDonation} more days before donating again`,
+                nextEligibleDate: new Date(lastDonation.getTime() + (56 * 24 * 60 * 60 * 1000))
             });
         }
 

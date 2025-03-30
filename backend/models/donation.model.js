@@ -2,6 +2,8 @@ const db = require('../utils/db');
 const BloodBank = require('./bloodBank.model');
 const User = require('./user.model');
 
+const MIN_DONATION_INTERVAL_DAYS = 56;
+
 class Donation {
     static async create(donationData) {
         const client = await db.getClient();
@@ -20,8 +22,8 @@ class Donation {
                 const today = new Date();
                 const daysSinceLastDonation = Math.floor((today - lastDonation) / (1000 * 60 * 60 * 24));
                 
-                if (daysSinceLastDonation < 90) {
-                    throw new Error(`Must wait ${90 - daysSinceLastDonation} more days before donating again`);
+                if (daysSinceLastDonation < MIN_DONATION_INTERVAL_DAYS) {
+                    throw new Error(`Must wait ${MIN_DONATION_INTERVAL_DAYS - daysSinceLastDonation} more days before donating again`);
                 }
             }
             
@@ -101,8 +103,8 @@ class Donation {
                     const today = new Date();
                     const daysSinceLastDonation = Math.floor((today - lastDonation) / (1000 * 60 * 60 * 24));
                     
-                    if (daysSinceLastDonation < 90) {
-                        stats.nextEligibleDate = new Date(lastDonation.getTime() + (90 * 24 * 60 * 60 * 1000));
+                    if (daysSinceLastDonation < MIN_DONATION_INTERVAL_DAYS) {
+                        stats.nextEligibleDate = new Date(lastDonation.getTime() + (MIN_DONATION_INTERVAL_DAYS * 24 * 60 * 60 * 1000));
                     }
                 }
             } else {
