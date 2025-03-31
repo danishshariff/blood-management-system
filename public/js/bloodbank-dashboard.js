@@ -125,7 +125,7 @@ function initializeCreateRequestForm() {
             };
             console.log('Form data:', formData);
 
-            const response = await fetch('/api/requests/create', {
+            const response = await fetch('/api/requests/bank', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -134,6 +134,11 @@ function initializeCreateRequestForm() {
                 credentials: 'same-origin'
             });
             console.log('Response status:', response.status);
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to create request');
+            }
 
             const data = await response.json();
             console.log('Response data:', data);

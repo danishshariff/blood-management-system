@@ -10,9 +10,11 @@ const { Donation } = require('../models/donation.model');
 exports.createRequest = async (req, res) => {
     try {
         const { blood_group, quantity, urgency, reason } = req.body;
+        console.log('Received request data:', { blood_group, quantity, urgency, reason });
         
         // Get user data from session
         if (!req.session.user) {
+            console.log('No user in session');
             return res.status(401).json({
                 success: false,
                 message: 'Not authenticated'
@@ -22,59 +24,76 @@ exports.createRequest = async (req, res) => {
         const bank_id = req.session.user.bank_id;
         const requester_id = req.session.user.user_id;
 
-        console.log('Creating request with data:', {
-            requester_id,
+        console.log('User data:', {
             bank_id,
-            blood_group,
-            quantity,
-            urgency,
-            reason
+            requester_id,
+            user: req.session.user
         });
 
         // Validate required fields
         if (!blood_group || !quantity || !urgency || !reason) {
+            console.log('Missing required fields:', { blood_group, quantity, urgency, reason });
             return res.status(400).json({
                 success: false,
                 message: 'All fields are required'
             });
         }
 
-        // Create blood request
-        const request = await BloodRequest.create({
-            requester_id,
-            blood_group,
-            quantity,
-            urgency,
-            reason,
-            bank_id
-        });
-
-        console.log('Request created:', request);
-
-        // Create notification for donors with matching blood group
+        // Start a transaction
+        const client = await getClient();
+        console.log('Got database client');
+        
         try {
-            // Find donors with matching blood group
-            const donors = await User.findDonorsByBloodGroup(blood_group);
-            
-            // Create notifications for each donor
-            for (const donor of donors) {
-                await Notification.create({
-                    user_id: donor.user_id,
-                    title: 'New Blood Request',
-                    message: `Urgent blood request for ${quantity} units of ${blood_group} blood`,
-                    type: 'request'
-                });
-            }
-        } catch (notificationError) {
-            console.error('Error creating notifications:', notificationError);
-            // Don't fail the request if notifications fail
-        }
+            await client.query('BEGIN');
+            console.log('Started transaction');
 
-        res.status(201).json({
-            success: true,
-            message: 'Blood request created successfully',
-            data: request
-        });
+            // Check blood stock availability
+            const stockResult = await client.query(
+                'SELECT quantity_available FROM blood_stock WHERE bank_id = $1 AND blood_group = $2',
+                [bank_id, blood_group]
+            );
+            console.log('Stock check result:', stockResult.rows);
+
+            let stockAvailable = 0;
+            if (stockResult.rows.length > 0) {
+                stockAvailable = stockResult.rows[0].quantity_available;
+            }
+
+            // Create blood request
+            console.log('Creating blood request with data:', {
+                requester_id,
+                blood_group,
+                quantity,
+                urgency,
+                reason,
+                bank_id
+            });
+
+            const result = await client.query(
+                `INSERT INTO blood_requests 
+                (requester_id, blood_group, quantity, urgency, reason, bank_id, status) 
+                VALUES ($1, $2, $3, $4, $5, $6, 'pending') 
+                RETURNING *`,
+                [requester_id, blood_group, quantity, urgency, reason, bank_id]
+            );
+            console.log('Blood request created:', result.rows[0]);
+
+            await client.query('COMMIT');
+            console.log('Transaction committed successfully');
+
+            res.status(201).json({
+                success: true,
+                message: 'Blood request created successfully',
+                data: result.rows[0]
+            });
+        } catch (error) {
+            console.error('Error in transaction:', error);
+            await client.query('ROLLBACK');
+            throw error;
+        } finally {
+            client.release();
+            console.log('Database client released');
+        }
     } catch (error) {
         console.error('Error creating blood request:', error);
         res.status(500).json({
@@ -104,13 +123,13 @@ exports.getBankRequests = async (req, res) => {
 
 exports.getAvailableRequests = async (req, res) => {
     try {
-        console.log('User data:', req.user);
+        console.log('User data:', req.session.user);
         console.log('Session data:', req.session);
 
         // Get donor's blood group
         const donorResult = await query(
             'SELECT blood_group FROM users WHERE user_id = $1',
-            [req.user.user_id]
+            [req.session.user.user_id]
         );
         console.log('Donor query result:', donorResult.rows);
 
@@ -127,7 +146,7 @@ exports.getAvailableRequests = async (req, res) => {
         // Check donor eligibility
         const lastDonation = await query(
             'SELECT donation_date FROM donations WHERE donor_id = $1 ORDER BY donation_date DESC LIMIT 1',
-            [req.user.user_id]
+            [req.session.user.user_id]
         );
         console.log('Last donation:', lastDonation.rows);
 
@@ -264,40 +283,81 @@ exports.respondToRequest = async (req, res) => {
 
 exports.createDirectRequest = async (req, res) => {
     try {
-        const { requester_name, contact_no, blood_group, quantity, reason, bank_id, urgency } = req.body;
+        const { requester_name, contact_no, blood_group, quantity, reason, bank_id } = req.body;
+        console.log('Creating direct request:', { requester_name, contact_no, blood_group, quantity, reason, bank_id });
 
         // Validate required fields
-        if (!requester_name || !contact_no || !blood_group || !quantity || !reason || !bank_id || !urgency) {
+        if (!requester_name || !contact_no || !blood_group || !quantity || !reason || !bank_id) {
             return res.status(400).json({
                 success: false,
                 message: 'All fields are required'
             });
         }
 
-        // Validate urgency value
-        if (!['normal', 'urgent'].includes(urgency)) {
-            return res.status(400).json({
-                success: false,
-                message: 'Invalid urgency level'
+        // Start a transaction
+        const client = await getClient();
+        try {
+            await client.query('BEGIN');
+
+            // Check blood stock availability
+            const stockResult = await client.query(
+                'SELECT quantity_available FROM blood_stock WHERE bank_id = $1 AND blood_group = $2',
+                [bank_id, blood_group]
+            );
+
+            let stockAvailable = 0;
+            if (stockResult.rows.length > 0) {
+                stockAvailable = stockResult.rows[0].quantity_available;
+            }
+
+            // If stock is available and sufficient
+            if (stockAvailable >= quantity) {
+                // Update blood stock
+                await client.query(
+                    'UPDATE blood_stock SET quantity_available = quantity_available - $1 WHERE bank_id = $2 AND blood_group = $3',
+                    [quantity, bank_id, blood_group]
+                );
+
+                // Create completed direct request
+                const result = await client.query(
+                    `INSERT INTO direct_requests 
+                    (requester_name, blood_group, quantity, reason, status, bank_id, contact_no) 
+                    VALUES ($1, $2, $3, $4, 'fulfilled', $5, $6) 
+                    RETURNING *`,
+                    [requester_name, blood_group, quantity, reason, bank_id, contact_no]
+                );
+
+                await client.query('COMMIT');
+
+                return res.status(201).json({
+                    success: true,
+                    message: 'Request completed successfully. Blood stock has been updated.',
+                    data: result.rows[0]
+                });
+            }
+
+            // If stock is insufficient, create pending request
+            const result = await client.query(
+                `INSERT INTO direct_requests 
+                (requester_name, blood_group, quantity, reason, status, bank_id, contact_no) 
+                VALUES ($1, $2, $3, $4, 'pending', $5, $6) 
+                RETURNING *`,
+                [requester_name, blood_group, quantity, reason, bank_id, contact_no]
+            );
+
+            await client.query('COMMIT');
+
+            res.status(201).json({
+                success: true,
+                message: 'Request created successfully and is pending donor response.',
+                data: result.rows[0]
             });
+        } catch (error) {
+            await client.query('ROLLBACK');
+            throw error;
+        } finally {
+            client.release();
         }
-
-        // Create direct request
-        const request = await DirectRequest.create({
-            requester_name,
-            contact_no,
-            blood_group,
-            quantity,
-            reason,
-            bank_id,
-            urgency
-        });
-
-        res.status(201).json({
-            success: true,
-            message: 'Direct request created successfully',
-            data: request
-        });
     } catch (error) {
         console.error('Error creating direct request:', error);
         res.status(500).json({

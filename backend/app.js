@@ -64,9 +64,27 @@ const authMiddleware = (req, res, next) => {
     next();
 };
 
+// API Authentication middleware
+const apiAuthMiddleware = (req, res, next) => {
+    if (!req.session.user) {
+        return res.status(401).json({
+            success: false,
+            message: 'Not authenticated'
+        });
+    }
+    next();
+};
+
 const roleMiddleware = (roles) => {
     return (req, res, next) => {
         if (!req.session.user || !roles.includes(req.session.user.role)) {
+            // Check if it's an API route
+            if (req.path.startsWith('/api/')) {
+                return res.status(403).json({
+                    success: false,
+                    message: 'Access denied'
+                });
+            }
             return res.redirect('/login');
         }
         next();

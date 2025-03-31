@@ -48,6 +48,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify(formData)
             });
 
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to submit request');
+            }
+
             const data = await response.json();
 
             if (data.success) {

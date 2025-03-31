@@ -120,7 +120,14 @@ function showError(message) {
 // View request details
 async function viewRequest(requestId, type) {
     try {
+        console.log('Viewing request:', { requestId, type });
         const response = await fetch(`/api/requests/${type}/${requestId}`);
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Failed to fetch request details');
+        }
+
         const result = await response.json();
         
         if (!result.success) {
@@ -128,6 +135,7 @@ async function viewRequest(requestId, type) {
         }
 
         const request = result.data;
+        console.log('Request details:', request);
         
         // Update modal content
         document.getElementById('modalRecipientName').textContent = request.requester_name;
@@ -178,9 +186,14 @@ window.confirmDonation = function(requestId, type) {
                 }
             });
 
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to confirm donation');
+            }
+
             const data = await response.json();
             
-            if (!response.ok || !data.success) {
+            if (!data.success) {
                 throw new Error(data.message || 'Failed to confirm donation');
             }
 
