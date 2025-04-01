@@ -6,91 +6,9 @@
     font-family: 'Arial', sans-serif;
 }
 
-/* NAVIGATION */
-nav {
-    background: #ffffff;
-    padding: 1rem 5%;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-    transition: all 0.3s ease;
-}
-
-nav.scrolled {
-    padding: 0.5rem 5%;
-    background: rgba(255, 255, 255, 0.95);
-}
-
-nav h2 {
-    color: #c0392b;
-    margin: 0;
-    font-size: 1.8rem;
-    font-weight: bold;
-    transition: color 0.3s ease;
-}
-
-nav h2:hover {
-    color: #a93226;
-}
-
-.nav-links {
-    display: flex;
-    gap: 2rem;
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-    position: relative;
-    padding: 0.5rem 0;
-    transition: color 0.3s ease;
-}
-
-.nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: #c0392b;
-    transition: width 0.3s ease;
-}
-
-.nav-links a:hover::after {
-    width: 100%;
-}
-
-.nav-links a.active {
-    color: #c0392b;
-}
-
-.nav-links a.active::after {
-    width: 100%;
-}
-
-.profile-section {
-    position: relative;
-}
-
-.profile-pic {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 2px solid #c0392b;
-    transition: transform 0.3s ease, border-color 0.3s ease;
-}
-
-.profile-pic:hover {
-    transform: scale(1.1);
-    border-color: #a93226;
+/* Add margin for fixed navbar */
+body {
+    margin-top: 80px;
 }
 
 /* Profile Modal */
@@ -400,44 +318,11 @@ nav h2:hover {
     width: 100%;
 }
 
-/* Responsive Design */
+/* Responsive Design for Info Cards */
 @media (max-width: 768px) {
-    nav {
-        padding: 1rem 3%;
-    }
-
-    .nav-links {
-        display: none;
-    }
-
-    .slide-content h2 {
-        font-size: 2.5rem;
-    }
-
-    .slide-content p {
-        font-size: 1.1rem;
-    }
-
     .info-card {
         width: 100%;
         max-width: 400px;
-    }
-}
-
-@media (max-width: 480px) {
-    .slide-content h2 {
-        font-size: 2rem;
-    }
-
-    .slide-content .btn {
-        font-size: 1rem;
-        padding: 0.8rem 1.5rem;
-    }
-
-    .slider-controls span {
-        width: 40px;
-        height: 40px;
-        font-size: 1.8rem;
     }
 }
 

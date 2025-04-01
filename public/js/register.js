@@ -64,139 +64,149 @@ document.addEventListener('DOMContentLoaded', function() {
         return captcha;
     }
 
+    // Function to show field error
+    function showFieldError(field, message) {
+        // Create error element if it doesn't exist
+        let errorElement = field.parentElement.querySelector('.field-error');
+        if (!errorElement) {
+            errorElement = document.createElement('div');
+            errorElement.className = 'field-error';
+            field.parentElement.appendChild(errorElement);
+        }
+        
+        // Show error message
+        errorElement.textContent = message;
+        errorElement.classList.add('show');
+        field.classList.add('invalid');
+    }
+
+    // Function to hide field error
+    function hideFieldError(field) {
+        const errorElement = field.parentElement.querySelector('.field-error');
+        if (errorElement) {
+            errorElement.classList.remove('show');
+        }
+        field.classList.remove('invalid');
+    }
+
     // Validate form inputs
     function validateForm() {
-        let errorMessages = [];
+        let isValid = true;
         
         // Common validations
         if (firstNameInput.value.trim().length < 2) {
-            errorMessages.push('First name must be at least 2 characters long');
-            firstNameInput.classList.add('invalid');
+            showFieldError(firstNameInput, 'First name must be at least 2 characters long');
+            isValid = false;
         } else {
-            firstNameInput.classList.remove('invalid');
+            hideFieldError(firstNameInput);
         }
 
         if (lastNameInput.value.trim().length < 2) {
-            errorMessages.push('Last name must be at least 2 characters long');
-            lastNameInput.classList.add('invalid');
+            showFieldError(lastNameInput, 'Last name must be at least 2 characters long');
+            isValid = false;
         } else {
-            lastNameInput.classList.remove('invalid');
+            hideFieldError(lastNameInput);
         }
 
         if (!isValidEmail(emailInput.value.trim())) {
-            errorMessages.push('Please enter a valid email address');
-            emailInput.classList.add('invalid');
+            showFieldError(emailInput, 'Please enter a valid email address');
+            isValid = false;
         } else {
-            emailInput.classList.remove('invalid');
+            hideFieldError(emailInput);
         }
 
         if (!isValidPhone(phoneInput.value.trim())) {
-            errorMessages.push('Please enter a valid 10-digit phone number');
-            phoneInput.classList.add('invalid');
+            showFieldError(phoneInput, 'Please enter a valid 10-digit phone number');
+            isValid = false;
         } else {
-            phoneInput.classList.remove('invalid');
+            hideFieldError(phoneInput);
         }
 
         if (addressInput.value.trim().length < 10) {
-            errorMessages.push('Address must be at least 10 characters long');
-            addressInput.classList.add('invalid');
+            showFieldError(addressInput, 'Address must be at least 10 characters long');
+            isValid = false;
         } else {
-            addressInput.classList.remove('invalid');
+            hideFieldError(addressInput);
         }
 
         if (!genderInput.value) {
-            errorMessages.push('Please select your gender');
-            genderInput.classList.add('invalid');
+            showFieldError(genderInput, 'Please select your gender');
+            isValid = false;
         } else {
-            genderInput.classList.remove('invalid');
+            hideFieldError(genderInput);
         }
 
         if (ageInput.value < 18) {
-            errorMessages.push('You must be at least 18 years old');
-            ageInput.classList.add('invalid');
+            showFieldError(ageInput, 'You must be at least 18 years old');
+            isValid = false;
         } else {
-            ageInput.classList.remove('invalid');
+            hideFieldError(ageInput);
         }
 
         if (!isValidPassword(passwordInput.value)) {
-            errorMessages.push('Password must be at least 8 characters long and contain uppercase, lowercase, and numbers');
-            passwordInput.classList.add('invalid');
+            showFieldError(passwordInput, 'Password must be at least 8 characters long and contain uppercase, lowercase, and numbers');
+            isValid = false;
         } else {
-            passwordInput.classList.remove('invalid');
+            hideFieldError(passwordInput);
         }
 
         if (passwordInput.value !== confirmPasswordInput.value) {
-            errorMessages.push('Passwords do not match');
-            confirmPasswordInput.classList.add('invalid');
+            showFieldError(confirmPasswordInput, 'Passwords do not match');
+            isValid = false;
         } else {
-            confirmPasswordInput.classList.remove('invalid');
+            hideFieldError(confirmPasswordInput);
         }
 
         // Captcha validation
         const enteredCaptcha = captchaInput.value.trim();
-        console.log('Entered captcha:', enteredCaptcha); // Debug log
-        console.log('Current captcha:', currentCaptcha); // Debug log
         if (enteredCaptcha !== currentCaptcha) {
-            errorMessages.push('Please enter the correct captcha code');
-            captchaInput.classList.add('invalid');
+            showFieldError(captchaInput, 'Please enter the correct captcha code');
+            isValid = false;
         } else {
-            captchaInput.classList.remove('invalid');
+            hideFieldError(captchaInput);
         }
 
+        // Terms validation
+        const termsError = document.querySelector('.terms-error');
         if (!termsCheckbox.checked) {
-            errorMessages.push('Please accept the terms and conditions');
+            if (!termsError) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'field-error terms-error';
+                errorDiv.textContent = 'Please accept the terms and conditions';
+                termsCheckbox.parentElement.appendChild(errorDiv);
+            }
+            termsError?.classList.add('show');
+            isValid = false;
+        } else {
+            termsError?.classList.remove('show');
         }
 
         // Role-specific validations
         if (currentRole === 'donor') {
             if (!bloodGroupInput.value) {
-                errorMessages.push('Please select your blood group');
-                bloodGroupInput.classList.add('invalid');
+                showFieldError(bloodGroupInput, 'Please select your blood group');
+                isValid = false;
             } else {
-                bloodGroupInput.classList.remove('invalid');
+                hideFieldError(bloodGroupInput);
             }
 
             if (!donorStatusInput.value) {
-                errorMessages.push('Please select your donor status');
-                donorStatusInput.classList.add('invalid');
+                showFieldError(donorStatusInput, 'Please select your donor status');
+                isValid = false;
             } else {
-                donorStatusInput.classList.remove('invalid');
+                hideFieldError(donorStatusInput);
             }
         } else {
             if (!bankIdInput.value.trim()) {
-                errorMessages.push('Please enter a valid bank ID');
-                bankIdInput.classList.add('invalid');
+                showFieldError(bankIdInput, 'Please enter a valid bank ID');
+                isValid = false;
             } else {
-                bankIdInput.classList.remove('invalid');
+                hideFieldError(bankIdInput);
             }
         }
 
-        // Display all error messages
-        if (errorMessages.length > 0) {
-            showError(errorMessages.join('\n'));
-            registerBtn.disabled = true;
-            return false;
-        } else {
-            hideError();
-            registerBtn.disabled = false;
-            return true;
-        }
-    }
-
-    // Function to update validation messages
-    function updateValidationMessage(fieldId, isValid, message) {
-        const field = document.getElementById(fieldId);
-        const messageElement = field.parentElement.querySelector('.validation-message');
-        
-        if (!messageElement) {
-            const newMessageElement = document.createElement('div');
-            newMessageElement.className = 'validation-message';
-            field.parentElement.appendChild(newMessageElement);
-        }
-        
-        const validationMessage = field.parentElement.querySelector('.validation-message');
-        validationMessage.textContent = isValid ? '' : message;
-        validationMessage.style.display = isValid ? 'none' : 'block';
+        registerBtn.disabled = !isValid;
+        return isValid;
     }
 
     // Display captcha on the page
@@ -471,40 +481,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Input validation listeners for common fields
-    [firstNameInput, lastNameInput, emailInput, phoneInput, addressInput,
-     genderInput, ageInput, passwordInput, confirmPasswordInput, captchaInput].forEach(input => {
-        input.addEventListener('input', validateForm);
-    });
+    // Add input event listeners for real-time validation
+    const inputs = [
+        firstNameInput, lastNameInput, emailInput, phoneInput, 
+        addressInput, genderInput, ageInput, passwordInput, 
+        confirmPasswordInput, captchaInput, bloodGroupInput, 
+        donorStatusInput, bankIdInput
+    ];
 
-    // Input validation listeners for donor fields
-    [bloodGroupInput, donorStatusInput].forEach(input => {
-        if (input) input.addEventListener('input', validateForm);
-    });
-
-    // Input validation listeners for BBS fields
-    [bankIdInput].forEach(input => {
-        if (input) input.addEventListener('input', validateForm);
-    });
-
-    // Profile picture preview (optional)
-    profilePicInput.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            if (file.size > 5 * 1024 * 1024) { // 5MB limit
-                showError('Profile picture must be less than 5MB');
-                this.value = '';
-                return;
-            }
-            
-            if (!file.type.startsWith('image/')) {
-                showError('Please select an image file');
-                this.value = '';
-                return;
-            }
+    inputs.forEach(input => {
+        if (input) {
+            input.addEventListener('input', () => {
+                validateForm();
+            });
         }
     });
 
+    // Add change event listener for terms checkbox
     termsCheckbox.addEventListener('change', validateForm);
 
     reloadCaptchaBtn.addEventListener('click', (e) => {
@@ -520,17 +513,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Add input event listener specifically for captcha
-    captchaInput.addEventListener('input', () => {
-        const enteredCaptcha = captchaInput.value.trim();
-        console.log('Input event - Entered captcha:', enteredCaptcha); // Debug log
-        console.log('Input event - Current captcha:', currentCaptcha); // Debug log
-        validateForm();
-    });
-
     // Initialize with donor role and validate form
     switchRole('donor');
     displayCaptcha(); // Display initial captcha
     validateForm();
 });
+  
   

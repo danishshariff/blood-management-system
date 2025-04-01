@@ -1,54 +1,6 @@
 // Load navigation and initialize
 document.addEventListener('DOMContentLoaded', function() {
-    // Set up mobile menu
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const navLinks = document.querySelector('.nav-links');
-    
-    if (mobileMenuBtn && navLinks) {
-        mobileMenuBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            navLinks.classList.toggle('active');
-        });
-    }
-
-    // Set up profile dropdown
-    const profileBtn = document.querySelector('.profile-btn');
-    const profileDropdown = document.querySelector('.profile-dropdown');
-    
-    if (profileBtn && profileDropdown) {
-        profileBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            profileDropdown.style.display = profileDropdown.style.display === 'none' ? 'block' : 'none';
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!profileDropdown.contains(e.target) && !profileBtn.contains(e.target)) {
-                profileDropdown.style.display = 'none';
-            }
-        });
-    }
-
-    // Handle notifications
-    const notificationBell = document.querySelector('.notification-bell');
-    const notificationDropdown = document.querySelector('.notification-dropdown');
-    
-    if (notificationBell && notificationDropdown) {
-        notificationBell.addEventListener('click', (e) => {
-            e.stopPropagation();
-            notificationDropdown.classList.toggle('show');
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', () => {
-            if (notificationDropdown.classList.contains('show')) {
-                notificationDropdown.classList.remove('show');
-            }
-        });
-    }
-
-    // Update navigation based on auth status
+    initializeNavigation();
     updateNavigation();
 });
 
@@ -174,9 +126,21 @@ function initializeNavigation() {
     const navLinks = document.querySelector('.nav-links');
     
     if (mobileMenuBtn && navLinks) {
-        mobileMenuBtn.addEventListener('click', (e) => {
+        // Remove any existing event listeners
+        const newMobileMenuBtn = mobileMenuBtn.cloneNode(true);
+        mobileMenuBtn.parentNode.replaceChild(newMobileMenuBtn, mobileMenuBtn);
+        
+        // Add new event listener
+        newMobileMenuBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             navLinks.classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !newMobileMenuBtn.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
         });
     }
 
@@ -198,41 +162,27 @@ function initializeNavigation() {
             }
         });
     }
-
-    // Handle notifications
-    const notificationBell = document.querySelector('.notification-bell');
-    const notificationDropdown = document.querySelector('.notification-dropdown');
-    
-    if (notificationBell && notificationDropdown) {
-        notificationBell.addEventListener('click', (e) => {
-            e.stopPropagation();
-            notificationDropdown.classList.toggle('show');
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', () => {
-            if (notificationDropdown.classList.contains('show')) {
-                notificationDropdown.classList.remove('show');
-            }
-        });
-    }
-
-    // Update navigation based on auth status
-    updateNavigation();
 }
 
-// Helper function for authenticated API calls
+// Helper function for authenticated fetch requests
 async function fetchWithAuth(endpoint, options = {}) {
-    const response = await fetch(endpoint, {
-        ...options,
-        credentials: 'same-origin' // Include cookies in the request
-    });
-
-    if (response.status === 401) {
-        // Session expired or invalid
-        window.location.href = '/login';
-        throw new Error('Authentication expired');
+    try {
+        const response = await fetch(endpoint, {
+            ...options,
+            headers: {
+                ...options.headers,
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        return await response.json();
+    } catch (error) {
+        console.error('Fetch error:', error);
+        throw error;
     }
-
-    return response;
 } 
