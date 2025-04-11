@@ -19,7 +19,6 @@ router.get('/list-users', async (req, res) => {
 router.post('/register', upload.single('profile_picture'), async (req, res) => {
     try {
         const user = await authController.register(req.body, req.file);
-        req.session.user = user;
         
         // Always send JSON response for API requests
         res.json({

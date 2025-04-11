@@ -11,6 +11,7 @@ async function initializeDashboard() {
         // Fetch donation statistics
         const statsResponse = await fetch('/api/donations/stats');
         const statsData = await statsResponse.json();
+        console.log('Donation Stats:', statsData); // Debugging log
         
         if (statsData.success) {
             updateDonationStats(statsData.data);
@@ -19,6 +20,7 @@ async function initializeDashboard() {
         // Fetch donation history
         const historyResponse = await fetch('/api/donations/history');
         const historyData = await historyResponse.json();
+        console.log('Donation History:', historyData); // Debugging log
         
         if (historyData.success) {
             updateDonationHistory(historyData.data);
@@ -27,6 +29,7 @@ async function initializeDashboard() {
         // Check donation eligibility
         const eligibilityResponse = await fetch('/api/donations/eligibility');
         const eligibilityData = await eligibilityResponse.json();
+        console.log('Eligibility Data:', eligibilityData); // Debugging log
         
         if (eligibilityData.success) {
             updateEligibilityStatus(eligibilityData);
@@ -57,8 +60,9 @@ function updateDonationStats(stats) {
     
     if (nextDateElement && eligibilityElement) {
         if (stats.nextEligibleDate) {
+            const daysLeft = Math.ceil((new Date(stats.nextEligibleDate) - new Date()) / (1000 * 60 * 60 * 24));
             nextDateElement.textContent = new Date(stats.nextEligibleDate).toLocaleDateString();
-            eligibilityElement.textContent = 'Not eligible yet';
+            eligibilityElement.textContent = `Not eligible yet. ${daysLeft} days left`;
             eligibilityElement.className = 'status status-ineligible';
         } else {
             nextDateElement.textContent = 'You can donate anytime';
