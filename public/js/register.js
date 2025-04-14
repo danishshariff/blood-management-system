@@ -405,6 +405,12 @@ document.addEventListener('DOMContentLoaded', function() {
             formData.append('role', currentRole);
 
             if (profilePicInput.files[0]) {
+                // Check file size (5MB limit)
+                if (profilePicInput.files[0].size > 5 * 1024 * 1024) {
+                    showError('Profile picture must be less than 5MB');
+                    profilePicInput.value = '';
+                    return;
+                }
                 formData.append('profile_picture', profilePicInput.files[0]);
             }
 
@@ -430,7 +436,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (!response.ok) {
                 const data = await response.json();
-                throw new Error(data.message || 'Registration failed');
+                if (data.message.includes('File too large')) {
+                    showError('Profile picture must be less than 5MB');
+                    profilePicInput.value = '';
+                } else {
+                    throw new Error(data.message || 'Registration failed');
+                }
+                return;
             }
 
             const data = await response.json();

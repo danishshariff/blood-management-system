@@ -1,0 +1,78 @@
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Navigation Styles */
+.nav-link {
+    color: #2c3e50;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    transition: color 0.3s ease;
+    cursor: pointer;
+}
+
+.nav-link:hover {
+    color: #c0392b;
+}
+
+/* Footer Section Styling */
+.footer-section {
+    background: #2c3e50;
+    color: #fff;
+    padding: 3rem 0;
+    margin-top: 4rem;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.footer-section h3 {
+    color: #fff;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.footer-section p {
+    color: #ecf0f1;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.footer-section a {
+    color: #ecf0f1;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: #c0392b;
+}
+
+/* About Section in Footer */
+#about {
+    scroll-margin-top: 100px;
+}
+
+/* Contact Section in Footer */
+#contact {
+    scroll-margin-top: 100px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .footer-section {
+        padding: 2rem 0;
+    }
+} 

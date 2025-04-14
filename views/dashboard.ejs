@@ -15,7 +15,14 @@
 <body>
     <!-- Add user data script -->
     <script>
-        window.userData = JSON.parse('<%- JSON.stringify(user || null) %>');
+        window.userData = {
+            id: '<%= user.user_id %>',
+            name: '<%= user.name %>',
+            role: '<%= user.role %>',
+            blood_group: '<%= user.blood_group %>'
+        };
+        localStorage.setItem('userRole', '<%= user.role %>');
+        localStorage.setItem('userId', '<%= user.user_id %>');
     </script>
 
     <!-- Include navigation -->

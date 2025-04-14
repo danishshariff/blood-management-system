@@ -64,13 +64,24 @@ class User {
     }
 
     static async updateLastDonation(userId) {
+        console.log('Updating last donation date for user:', userId);
         const query = `
             UPDATE users 
             SET last_donation_date = CURRENT_DATE 
             WHERE user_id = $1 
             RETURNING last_donation_date`;
         const result = await db.query(query, [userId]);
+        console.log('Last donation date updated to:', result.rows[0].last_donation_date);
         return result.rows[0];
+    }
+
+    static async getLastDonationDate(userId) {
+        const query = `
+            SELECT last_donation_date 
+            FROM users 
+            WHERE user_id = $1`;
+        const result = await db.query(query, [userId]);
+        return result.rows[0]?.last_donation_date;
     }
 
     static async getDonorsByBloodGroup(bloodGroup, bankId) {

@@ -201,10 +201,13 @@ window.confirmDonation = function(requestId, type) {
             donateModalOverlay.style.display = 'none';
             confirmedModalOverlay.style.display = 'flex';
 
-            // Reload the page after 2 seconds
-            setTimeout(() => {
-                window.location.reload();
-            }, 2000);
+            // Set up the Go to Dashboard button
+            const dashboardBtn = document.querySelector('#confirmedModalOverlay .btn-confirm');
+            if (dashboardBtn) {
+                dashboardBtn.onclick = () => {
+                    window.location.href = '/dashboard';
+                };
+            }
         } catch (error) {
             console.error('Error confirming donation:', error);
             donateModalOverlay.style.display = 'none';

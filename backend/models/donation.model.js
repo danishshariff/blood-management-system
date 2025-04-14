@@ -13,25 +13,11 @@ class Donation {
             
             const { donor_id, blood_group, quantity, bank_id } = donationData;
             
-            // Check last donation date
-            const userQuery = 'SELECT last_donation_date FROM users WHERE user_id = $1';
-            const userResult = await client.query(userQuery, [donor_id]);
-            
-            if (userResult.rows[0]?.last_donation_date) {
-                const lastDonation = new Date(userResult.rows[0].last_donation_date);
-                const today = new Date();
-                const daysSinceLastDonation = Math.floor((today - lastDonation) / (1000 * 60 * 60 * 24));
-                
-                if (daysSinceLastDonation < MIN_DONATION_INTERVAL_DAYS) {
-                    throw new Error(`Must wait ${MIN_DONATION_INTERVAL_DAYS - daysSinceLastDonation} more days before donating again`);
-                }
-            }
-            
             // Create donation record
             const donationQuery = `
                 INSERT INTO donations 
-                (donor_id, blood_group, quantity, donation_date, bank_id)
-                VALUES ($1, $2, $3, CURRENT_DATE, $4)
+                (donor_id, blood_group, quantity, donation_date, bank_id, status)
+                VALUES ($1, $2, $3, CURRENT_DATE, $4, 'completed')
                 RETURNING *`;
             
             const donationResult = await client.query(donationQuery, [
@@ -42,10 +28,24 @@ class Donation {
             await BloodBank.updateStock(bank_id, blood_group, quantity, 'add');
             
             // Update user's last donation date
-            await User.updateLastDonation(donor_id);
+            const updateUserQuery = `
+                UPDATE users 
+                SET last_donation_date = CURRENT_DATE 
+                WHERE user_id = $1 
+                RETURNING last_donation_date`;
+            const userResult = await client.query(updateUserQuery, [donor_id]);
+            
+            if (!userResult.rows[0]) {
+                throw new Error('Failed to update user last donation date');
+            }
             
             await client.query('COMMIT');
-            return donationResult.rows[0];
+            
+            // Return both donation and user update results
+            return {
+                ...donationResult.rows[0],
+                last_donation_date: userResult.rows[0].last_donation_date
+            };
         } catch (error) {
             await client.query('ROLLBACK');
             throw error;
@@ -81,22 +81,39 @@ class Donation {
             let stats = {};
             
             if (donorId) {
-                // Get total donations count
+                // Get total donations count and last donation date
                 const totalQuery = `
-                    SELECT COUNT(*) as total, SUM(quantity) as total_units
-                    FROM donations 
-                    WHERE donor_id = $1 AND status = 'completed'`;
+                    WITH latest_donation AS (
+                        SELECT 
+                            MAX(donation_date) as last_donation_date,
+                            SUM(quantity) as total_units,
+                            COUNT(*) as total
+                        FROM donations 
+                        WHERE donor_id = $1
+                        AND status = 'completed'
+                    )
+                    SELECT 
+                        COALESCE(ld.total, 0) as total,
+                        COALESCE(ld.total_units, 0) as total_units,
+                        COALESCE(ld.last_donation_date, u.last_donation_date) as last_donation_date
+                    FROM users u
+                    LEFT JOIN latest_donation ld ON true
+                    WHERE u.user_id = $1`;
                 const totalResult = await db.query(totalQuery, [donorId]);
+                
                 stats.total = parseInt(totalResult.rows[0].total) || 0;
                 stats.totalUnits = parseInt(totalResult.rows[0].total_units) || 0;
+                stats.lastDonationDate = totalResult.rows[0].last_donation_date || null;
                 
-                // Get last donation date
-                const lastDonationQuery = `
-                    SELECT last_donation_date 
-                    FROM users 
-                    WHERE user_id = $1`;
-                const lastDonationResult = await db.query(lastDonationQuery, [donorId]);
-                stats.lastDonationDate = lastDonationResult.rows[0]?.last_donation_date || null;
+                // If no last donation date found, try to get it from the user table
+                if (!stats.lastDonationDate) {
+                    const userQuery = `
+                        SELECT last_donation_date 
+                        FROM users 
+                        WHERE user_id = $1`;
+                    const userResult = await db.query(userQuery, [donorId]);
+                    stats.lastDonationDate = userResult.rows[0]?.last_donation_date || null;
+                }
                 
                 if (stats.lastDonationDate) {
                     const lastDonation = new Date(stats.lastDonationDate);
@@ -121,7 +138,8 @@ class Donation {
                 const todayQuery = `
                     SELECT COUNT(*) as today_count
                     FROM donations 
-                    WHERE DATE(donation_date) = CURRENT_DATE`;
+                    WHERE DATE(donation_date) = CURRENT_DATE
+                    AND status = 'completed'`;
                 const todayResult = await db.query(todayQuery);
                 stats.todayDonations = parseInt(todayResult.rows[0].today_count) || 0;
             }

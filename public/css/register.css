@@ -74,7 +74,7 @@ body {
 
 /* Form Sections */
 .form-section {
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   padding: 1.5rem;
   background: #f8f9fa;
   border-radius: 10px;
@@ -91,25 +91,26 @@ body {
   font-size: 1.2rem;
 }
 
+/* Form Row and Group Spacing */
 .form-row {
   display: flex;
   gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
+  position: relative;
 }
 
 .form-group {
   flex: 1;
   position: relative;
-  margin-bottom: 25px;
+  margin-bottom: 2.5rem;
 }
 
 /* Form Elements */
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: #444;
-  font-size: 0.95rem;
+  color: #2c3e50;
+  font-weight: 500;
 }
 
 .form-group input,
@@ -117,35 +118,37 @@ body {
 .form-group textarea {
   width: 100%;
   padding: 0.8rem 1rem;
-  border: 2px solid #e1e1e1;
+  border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background: #fff;
+  background-color: #fff;
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   border-color: #c0392b;
-  box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.1);
+  box-shadow: 0 0 0 2px rgba(192, 57, 43, 0.1);
   outline: none;
 }
 
 .form-group input.invalid,
 .form-group select.invalid,
 .form-group textarea.invalid {
-  border-color: #dc3545;
+  border-color: #e74c3c;
 }
 
+/* Error Message Styling */
 .field-error {
-  color: #dc3545;
+  color: #e74c3c;
   font-size: 0.85rem;
   display: none;
   position: absolute;
   left: 0;
-  bottom: -20px;
+  bottom: -2rem;
   width: 100%;
+  margin-top: 1rem;
 }
 
 .field-error.show {
@@ -157,60 +160,46 @@ body {
   display: none !important;
 }
 
+/* Password Input Specific Styling */
 .password-input {
   position: relative;
-  margin-bottom: 20px;
+  margin-bottom: 3.5rem;
 }
 
-.toggle-password {
+.password-input .field-error {
+  position: absolute;
+  bottom: -3rem;
+  left: 0;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+/* Password toggle button */
+.password-toggle {
   position: absolute;
   right: 1rem;
   top: 50%;
   transform: translateY(-50%);
+  background: none;
+  border: none;
   cursor: pointer;
   color: #666;
-  transition: color 0.3s ease;
-}
-
-.toggle-password:hover {
-  color: #c0392b;
 }
 
 /* Captcha Section */
 .captcha-section {
-  background: #f8f9fa;
-  padding: 1.5rem;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-  text-align: center;
+  margin-bottom: 2.5rem;
 }
 
 .captcha-text {
-  font-family: 'Courier New', monospace;
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: #333;
-  letter-spacing: 3px;
-  margin-bottom: 0.5rem;
-  user-select: none;
-}
-
-.reload-captcha {
-  display: inline-block;
-  color: #c0392b;
-  text-decoration: none;
   margin-bottom: 1rem;
-  font-size: 0.9rem;
-  transition: color 0.3s ease;
-}
-
-.reload-captcha:hover {
-  color: #a93226;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 /* Terms Section */
 .terms-section {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
 }
 
 .checkbox-container {
@@ -256,7 +245,7 @@ body {
   box-shadow: 0 4px 15px rgba(231, 76, 60, 0.2);
   position: relative;
   overflow: hidden;
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   height: 60px;
   line-height: 1;
 }
@@ -479,14 +468,6 @@ body {
 }
 
 /* Form Section Headers */
-.form-section {
-  margin-bottom: 2rem;
-  padding: 1.5rem;
-  background: #f8f9fa;
-  border-radius: 10px;
-  transition: all 0.3s ease;
-}
-
 .form-section:not(:last-child) {
   margin-bottom: 2rem;
 }
@@ -508,24 +489,45 @@ body {
   border-radius: 2px;
 }
 
-/* Form Row and Group Spacing */
-.form-row {
-  display: flex;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+/* Adjust spacing when errors are shown */
+.form-row:has(.field-error.show) {
+  margin-bottom: 4rem;
 }
 
-.form-row:last-child {
-  margin-bottom: 0;
+.form-group:has(.field-error.show) {
+  margin-bottom: 4rem;
 }
 
-.form-group {
-  flex: 1;
-  margin-bottom: 1rem;
+/* Specific field adjustments */
+.form-group:has(input[name="firstName"]),
+.form-group:has(input[name="lastName"]),
+.form-group:has(input[name="email"]),
+.form-group:has(input[name="password"]),
+.form-group:has(input[name="confirmPassword"]),
+.form-group:has(input[name="age"]),
+.form-group:has(input[name="phone"]),
+.form-group:has(input[name="address"]),
+.form-group:has(select[name="bloodGroup"]),
+.form-group:has(select[name="donorStatus"]) {
+  margin-bottom: 2.5rem;
 }
 
-.form-group:last-child {
-  margin-bottom: 0;
+/* Error message positioning for all fields */
+.form-group:has(input[name="firstName"]) .field-error,
+.form-group:has(input[name="lastName"]) .field-error,
+.form-group:has(input[name="email"]) .field-error,
+.form-group:has(input[name="password"]) .field-error,
+.form-group:has(input[name="confirmPassword"]) .field-error,
+.form-group:has(input[name="age"]) .field-error,
+.form-group:has(input[name="phone"]) .field-error,
+.form-group:has(input[name="address"]) .field-error,
+.form-group:has(select[name="bloodGroup"]) .field-error,
+.form-group:has(select[name="donorStatus"]) .field-error {
+  position: absolute;
+  bottom: -2rem;
+  left: 0;
+  width: 100%;
+  margin-top: 1rem;
 }
 
 /* Required Field Indicator */
@@ -779,4 +781,92 @@ textarea {
 
 .btn-ok:hover {
     background-color: #a93226;
+}
+
+/* Specific adjustments for first name and password fields */
+.form-group:has(input[name="firstName"]),
+.form-group:has(input[name="password"]) {
+    margin-bottom: 3.5rem;
+}
+
+.form-group:has(input[name="firstName"]) .field-error,
+.form-group:has(input[name="password"]) .field-error {
+    bottom: -3rem;
+}
+
+/* First name specific adjustments */
+.form-group:has(input[name="firstName"]) {
+    margin-bottom: 3.5rem;
+}
+
+.form-group:has(input[name="firstName"]) .field-error {
+    position: absolute;
+    bottom: -2.3rem;
+    left: 0;
+    width: 100%;
+    margin-top: 1.5rem;
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Footer Section Styling */
+.footer-section {
+    background: #2c3e50;
+    color: #fff;
+    padding: 3rem 0;
+    margin-top: 4rem;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.footer-section h3 {
+    color: #fff;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.footer-section p {
+    color: #ecf0f1;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.footer-section a {
+    color: #ecf0f1;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: #c0392b;
+}
+
+/* About Section in Footer */
+#about {
+    scroll-margin-top: 100px; /* Adjust based on your header height */
+}
+
+/* Contact Section in Footer */
+#contact {
+    scroll-margin-top: 100px; /* Adjust based on your header height */
+}
+
+/* Navigation Link Styles */
+.nav-link {
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #c0392b;
 }
